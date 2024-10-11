@@ -301,8 +301,6 @@
     <!-- localized messages for Vietnamese -->
     <resource-file src="src/android/res/values-vi/pgm_strings.xml" target="res/values-vi/pgm_strings.xml"/>
 
-    <dependency id="cordova-androidx-build"  />
-
   </platform>
 
   <!-- ios -->
