@@ -351,12 +351,4 @@ The plugin will detect whether your tap is for the header div or for the map vie
 
 This means **you can use the native Google Maps views similar to HTML elements**.
 
-![](https://raw.githubusercontent.com/mapsplugin/cordova-plugin-googlemaps/master/images/touch.png)
-
-
----------------------------------------------------------------------------------------------------------
-## Official Communities
-
-- Gitter : (managed by @Hirbod)
-
-  https://gitter.im/nightstomp/cordova-plugin-googlemaps
+![](https://raw.githubusercontent.com/GitToTheHub/cordova-plugin-googlemaps-2/master/images/touch.png)
