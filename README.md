@@ -69,19 +69,17 @@ For browser platform,
 
 ## Install optional variables (config.xml)
 
-  - ![](https://raw.githubusercontent.com/mapsplugin/cordova-plugin-googlemaps/master/images/icon-android.png) **APP_COMPAT_VERSION = (1.1.0)**<br>
-  **PLAY_SERVICES_BASEMENT_VERSION = (17.2.1)**<br>
-  **PLAY_SERVICES_BASE_VERSION = (17.2.1)**<br>
-  **PLAY_SERVICES_GCM_VERSION = (17.0.0)**<br>
-  **PLAY_SERVICES_LOCATION_VERSION = (17.0.0)**<br>
-  **GOOGLE_MAPS_ANDROID_SDK = (maps-sdk-3.0.0-beta)**<br>
-    cordova-plugin-googlemaps version 2.8.0 or later uses [Maps SDK for Android v.3](https://developers.google.com/maps/documentation/android-sdk/v3-client-migration).
+### Android
+- `GOOGLE_MAPS_PLAY_SERVICES_VERSION`
+  - Defaults to `19.0.0`
+- `GOOGLE_MAPS_PLAY_SERVICES_LOCATION_VERSION`
+  - Defaults to `21.3.0`
 
-  - ![](https://raw.githubusercontent.com/mapsplugin/cordova-plugin-googlemaps/master/images/icon-ios.png) **LOCATION_WHEN_IN_USE_DESCRIPTION**<br>
-    This message is displayed when your application requests **LOCATION PERMISSION for only necessary times**.
-
-  - ![](https://raw.githubusercontent.com/mapsplugin/cordova-plugin-googlemaps/master/images/icon-ios.png) **LOCATION_ALWAYS_USAGE_DESCRIPTION**<br>
-    This message is displayed when your application requests **LOCATION PERMISSION for always**.
+### iOS
+- `LOCATION_WHEN_IN_USE_DESCRIPTION`
+  - This message is displayed when your application requests **LOCATION PERMISSION for only necessary times**.
+- `LOCATION_ALWAYS_USAGE_DESCRIPTION`
+  - This message is displayed when your application requests **LOCATION PERMISSION for always**.
 
 ---------------------------------------------------------------------------------------------------------
 
@@ -95,19 +93,7 @@ For browser platform,
 
 ## Release Notes
 
-  - **v2.8.0-dev**
-    - Important Change: (Android)
-      If `android.useAndroidX=true` and `android.enableJetifier=true` are defined in `gradle.properties`,
-      this plugin uses [Maps SDK for Android v.3.0.0 BETA](https://developers.google.com/maps/documentation/android-sdk/v3-client-migration).
-      If no definition, this plugin uses `com.google.android.gms:play-services-maps`
-
-    - Add: (Android/iOS/Browser) `mapOptions.preferences.restriction` which is able to set the camera bounds.
-    - Add: (Android/iOS/Browser) `mapOptions.preferences.clickableIcons` which is able to be disable clicking on POI icons.
-    - Bug fix: (Android/iOS/Browser) `mapOptions.preferences.building` does not work.
-    - Add: (Android/iOS/Browser) ElevationService
-    - Add: (Android/iOS/Browser) DirectionsService and `map.addDirectionsRenderer()`
-    - Change: (Android/iOS/Browser) `map.setDiv()`, `map.setOptions()` returns `Promise`.
-    - Change: (Android/iOS/Browser) Hides `__pluginDomId` and `__pluginMapId` properties.
+See [CHANGELOG.md](CHANGELOG.md)
 
 ---------------------------------------------------------------------------------------------------------
 

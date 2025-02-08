@@ -27,3 +27,12 @@
   - The splash screen on iOS was misplaced or was not appearing. To fix this, the views will not be removed anymore from the view hierarchy and the plugin layer will be send only to the front, when the splash screen is dismissed.
 - Remove reference of CDVCommandDelegateImpl
   - Since cordova-ios 7.x. CDVCommandDelegateImpl is private and no longer public
+
+## Common
+- Add: (Android/iOS/Browser) `mapOptions.preferences.restriction` which is able to set the camera bounds.
+- Add: (Android/iOS/Browser) `mapOptions.preferences.clickableIcons` which is able to be disable clicking on POI icons.
+- Bug fix: (Android/iOS/Browser) `mapOptions.preferences.building` does not work.
+- Add: (Android/iOS/Browser) ElevationService
+- Add: (Android/iOS/Browser) DirectionsService and `map.addDirectionsRenderer()`
+- Change: (Android/iOS/Browser) `map.setDiv()`, `map.setOptions()` returns `Promise`.
+- Change: (Android/iOS/Browser) Hides `__pluginDomId` and `__pluginMapId` properties.
