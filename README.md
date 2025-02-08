@@ -1,30 +1,12 @@
 # Cordova GoogleMaps plugin for Android, iOS and Browser v2.8.0-dev
 
-| Download | Build test (multiple_maps branch)|
-|----------|---------------------------|
-| [![](https://img.shields.io/npm/dm/cordova-plugin-googlemaps.svg)](https://npm-stat.com/charts.html?package=cordova-plugin-googlemaps) |[![](https://travis-ci.org/mapsplugin/cordova-plugin-googlemaps.svg?branch=multiple_maps)](https://travis-ci.org/mapsplugin/cordova-plugin-googlemaps/branches) |
+This is the continuation of the discontinued plugin [cordova-plugin-googlemaps](https://github.com/mapsplugin/cordova-plugin-googlemaps).
 
-  This plugin displays Google Maps in your application.
-  This plugin uses these libraries for each platforms:
+This plugin allows you to display a native Google Maps layer in your application and uses the following libraries:
 
-  - Android : [Google Maps Android API](https://developers.google.com/maps/documentation/android/)
-  - iOS : [Google Maps SDK for iOS](https://developers.google.com/maps/documentation/ios/)
-  - Browser : [Google Maps JavaScript API v3](https://developers.google.com/maps/documentation/javascript/)
-
-<table>
-<tr>
-<td>
-<h3>Android, iOS</h3>
-<img src="https://raw.githubusercontent.com/mapsplugin/cordova-plugin-googlemaps-doc/master/v2.6.0/hello-world/image1.gif"  height="300">
-</td>
-<td>
-<h3>Browser</h3>
-<img src="https://raw.githubusercontent.com/mapsplugin/cordova-plugin-googlemaps/master/images/browser_demo.gif" height="300">
-</td>
-</tr>
-</table>
-
------
+- Android: [Google Maps Android API](https://developers.google.com/maps/documentation/android/)
+- iOS: [Google Maps SDK for iOS](https://developers.google.com/maps/documentation/ios/)
+- Browser: [Google Maps JavaScript API v3](https://developers.google.com/maps/documentation/javascript/)
 
 ## Guides
 
@@ -32,11 +14,13 @@
   - [Hello, World](https://github.com/mapsplugin/cordova-plugin-googlemaps-doc/blob/master/v2.6.0/hello-world/README.md)
   - [Trouble shootings](https://github.com/mapsplugin/cordova-plugin-googlemaps-doc/tree/master/troubleshootings/README.md)
 
-## Quick install
+## Installation
 
-  ```
-  $> cordova plugin add cordova-plugin-googlemaps
-  ```
+
+### GitHub
+```bash
+cordova plugin add https://github.com/GitToTheHub/cordova-plugin-googlemaps-2
+```
 
 Then set your Google Maps API keys into your `config.xml` (Android / iOS).
 
