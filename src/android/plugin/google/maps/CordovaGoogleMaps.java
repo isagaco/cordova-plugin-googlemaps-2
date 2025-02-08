@@ -60,7 +60,7 @@ public class CordovaGoogleMaps extends CordovaPlugin implements ViewTreeObserver
     if (root != null) {
       return;
     }
-    LOG.setLogLevel(LOG.ERROR);
+    LOG.setLogLevel(LOG.DEBUG);
 
     activity = cordova.getActivity();
     final View view = webView.getView();
@@ -142,20 +142,20 @@ public class CordovaGoogleMaps extends CordovaPlugin implements ViewTreeObserver
           final boolean finalIsNeedToUpdate = isNeedToUpdate;
           AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(activity);
           alertDialogBuilder
-              .setMessage(errorMsg)
-              .setCancelable(false)
-              .setPositiveButton(PluginUtil.getPgmStrings(activity,"pgm_google_close_button"), new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog,int id) {
-                  dialog.dismiss();
-                  if (finalIsNeedToUpdate) {
-                    try {
-                      activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=com.google.android.gms")));
-                    } catch (android.content.ActivityNotFoundException anfe) {
-                      activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=com.google.android.gms")));
+                  .setMessage(errorMsg)
+                  .setCancelable(false)
+                  .setPositiveButton(PluginUtil.getPgmStrings(activity,"pgm_google_close_button"), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog,int id) {
+                      dialog.dismiss();
+                      if (finalIsNeedToUpdate) {
+                        try {
+                          activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=com.google.android.gms")));
+                        } catch (android.content.ActivityNotFoundException anfe) {
+                          activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=com.google.android.gms")));
+                        }
+                      }
                     }
-                  }
-                }
-              });
+                  });
           AlertDialog alertDialog = alertDialogBuilder.create();
 
           // show it
@@ -183,13 +183,13 @@ public class CordovaGoogleMaps extends CordovaPlugin implements ViewTreeObserver
           AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(activity);
 
           alertDialogBuilder
-              .setMessage(PluginUtil.getPgmStrings(activity,"pgm_api_key_error"))
-              .setCancelable(false)
-              .setPositiveButton(PluginUtil.getPgmStrings(activity,"pgm_google_close_button"), new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog,int id) {
-                  dialog.dismiss();
-                }
-              });
+                  .setMessage(PluginUtil.getPgmStrings(activity,"pgm_api_key_error"))
+                  .setCancelable(false)
+                  .setPositiveButton(PluginUtil.getPgmStrings(activity,"pgm_google_close_button"), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog,int id) {
+                      dialog.dismiss();
+                    }
+                  });
           AlertDialog alertDialog = alertDialogBuilder.create();
 
           // show it
@@ -357,13 +357,13 @@ public class CordovaGoogleMaps extends CordovaPlugin implements ViewTreeObserver
 
     final JSONObject elements = args.getJSONObject(0);
     if (mPluginLayout == null) {
-        callbackContext.success();
-        return;
+      callbackContext.success();
+      return;
     }
 
     //Log.d(TAG, "--->stopFlag = " + mPluginLayout.stopFlag + ", mPluginLayout.needUpdatePosition = " + mPluginLayout.needUpdatePosition);
     if (!mPluginLayout.stopFlag || mPluginLayout.needUpdatePosition) {
-        mPluginLayout.putHTMLElements(elements);
+      mPluginLayout.putHTMLElements(elements);
     }
 
     //mPluginLayout.updateMapPositions();
@@ -448,15 +448,13 @@ public class CordovaGoogleMaps extends CordovaPlugin implements ViewTreeObserver
     //------------------------------------------
     JSONObject meta = args.getJSONObject(0);
     String mapId = meta.getString("__pgmId");
-    PluginMap pluginMap = new PluginMap();
-    pluginMap.privateInitialize(mapId, cordova, webView, null);
-    pluginMap.initialize(cordova, webView);
-    pluginMap.mapCtrl = CordovaGoogleMaps.this;
-    pluginMap.self = pluginMap;
 
+    PluginMap pluginMap = new PluginMap();
     PluginEntry pluginEntry = new PluginEntry(mapId, pluginMap);
     pluginManager.addService(pluginEntry);
 
+    pluginMap.mapCtrl = CordovaGoogleMaps.this;
+    pluginMap.self = pluginMap;
     pluginMap.getMap(args, callbackContext);
   }
 
@@ -470,14 +468,12 @@ public class CordovaGoogleMaps extends CordovaPlugin implements ViewTreeObserver
     String mapId = meta.getString("__pgmId");
     Log.d(TAG, "---> mapId = " + mapId);
     PluginStreetViewPanorama pluginStreetView = new PluginStreetViewPanorama();
-    pluginStreetView.privateInitialize(mapId, cordova, webView, null);
-    pluginStreetView.initialize(cordova, webView);
-    pluginStreetView.mapCtrl = CordovaGoogleMaps.this;
-    pluginStreetView.self = pluginStreetView;
-
     PluginEntry pluginEntry = new PluginEntry(mapId, pluginStreetView);
     pluginManager.addService(pluginEntry);
 
+    pluginStreetView.mapCtrl = CordovaGoogleMaps.this;
+    pluginStreetView.self = pluginStreetView;
+    
     pluginStreetView.getPanorama(args, callbackContext);
   }
 
@@ -545,7 +541,7 @@ public class CordovaGoogleMaps extends CordovaPlugin implements ViewTreeObserver
 
   }
 
- /**
+  /**
    * Called by the system when the device configuration changes while your activity is running.
    *
    * @param newConfig		The new device configuration

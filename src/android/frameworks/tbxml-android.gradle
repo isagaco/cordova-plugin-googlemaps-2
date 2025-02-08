@@ -1,19 +1,25 @@
 repositories {
   maven { url 'https://maven.google.com' }
   mavenCentral()
-  jcenter()
+
   def libsDirPath = System.getProperty("user.dir")
-  flatDir{
+
+  // Causes Warning: Using flatDir should be avoided because it doesn't support any meta-data formats.
+  flatDir {
     dirs 'src/main/libs', 'libs', "${libsDirPath}/libs"
   }
 }
 
 dependencies {
-  implementation(name:'tbxml-android', ext:'aar')
+  implementation(name:'tbxml-android', ext:'aar') {
+    exclude group: 'com.android.volley'
+  }
+
+  implementation 'com.android.volley:volley:1.2.1'
 }
 
 android {
-  compileSdkVersion 26
+  compileSdkVersion 28
 
   packagingOptions {
     exclude 'README'
