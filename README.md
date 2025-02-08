@@ -11,8 +11,6 @@
   - iOS : [Google Maps SDK for iOS](https://developers.google.com/maps/documentation/ios/)
   - Browser : [Google Maps JavaScript API v3](https://developers.google.com/maps/documentation/javascript/)
 
-  Both [PhoneGap](http://phonegap.com/) and [Apache Cordova](http://cordova.apache.org/) are supported.
-
 <table>
 <tr>
 <td>
@@ -32,7 +30,6 @@
 
   - [How to generate API keys?](https://github.com/mapsplugin/cordova-plugin-googlemaps-doc/blob/master/v2.6.0/api_key/README.md)
   - [Hello, World](https://github.com/mapsplugin/cordova-plugin-googlemaps-doc/blob/master/v2.6.0/hello-world/README.md)
-  - [Hello, World (with PhoneGap Build)](https://github.com/mapsplugin/cordova-plugin-googlemaps-doc/blob/master/v2.6.0/hello-world-phonegap-build/README.md)
   - [Trouble shootings](https://github.com/mapsplugin/cordova-plugin-googlemaps-doc/tree/master/troubleshootings/README.md)
 
 ## Quick install
@@ -68,19 +65,6 @@ For browser platform,
   // Create a Google Maps native view under the map_canvas div.
   var map = plugin.google.maps.Map.getMap(div);
 
-  ```
-
-## PhoneGap Build settings
-
-  ```xml
-  <widget ...>
-
-    <!--
-      You need to specify cli-7.1.0 or greater version.
-      https://build.phonegap.com/current-support
-    -->
-    <preference name="phonegap-version" value="cli-8.1.1" />
-  </widget>
   ```
 
 ## Install optional variables (config.xml)
