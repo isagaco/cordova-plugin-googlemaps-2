@@ -1,5 +1,5 @@
 var cordova_exec = require('cordova/exec'),
-  common = require('cordova-plugin-googlemaps.Common');
+  common = require('cordova-plugin-googlemaps-2.Common');
 
 function pluginInit() {
   //-------------------------------------------------------------

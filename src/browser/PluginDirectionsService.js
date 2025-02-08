@@ -1,6 +1,6 @@
 
 
-var BaseArrayClass = require('cordova-plugin-googlemaps.BaseArrayClass');
+var BaseArrayClass = require('cordova-plugin-googlemaps-2.BaseArrayClass');
 
 function _cnv_DirectionsRoute(route) {
   if (route.bounds) {

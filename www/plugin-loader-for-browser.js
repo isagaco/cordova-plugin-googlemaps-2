@@ -1,8 +1,8 @@
-var event = require('cordova-plugin-googlemaps.event'),
-  BaseClass = require('cordova-plugin-googlemaps.BaseClass'),
-  BaseArrayClass = require('cordova-plugin-googlemaps.BaseArrayClass'),
-  execCmd = require('cordova-plugin-googlemaps.commandQueueExecutor'),
-  cordovaGoogleMaps = new(require('cordova-plugin-googlemaps.js_CordovaGoogleMaps'))(execCmd);
+var event = require('cordova-plugin-googlemaps-2.event'),
+  BaseClass = require('cordova-plugin-googlemaps-2.BaseClass'),
+  BaseArrayClass = require('cordova-plugin-googlemaps-2.BaseArrayClass'),
+  execCmd = require('cordova-plugin-googlemaps-2.commandQueueExecutor'),
+  cordovaGoogleMaps = new(require('cordova-plugin-googlemaps-2.js_CordovaGoogleMaps'))(execCmd);
 
 module.exports = {
   event: event,
@@ -22,19 +22,19 @@ module.exports = {
       OUTDOOR: 'OUTDOOR'
     }
   },
-  HtmlInfoWindow: require('cordova-plugin-googlemaps.HtmlInfoWindow'),
-  LatLng: require('cordova-plugin-googlemaps.LatLng'),
-  LatLngBounds: require('cordova-plugin-googlemaps.LatLngBounds'),
-  MapTypeId: require('cordova-plugin-googlemaps.MapTypeId'),
-  environment: require('cordova-plugin-googlemaps.Environment'),
-  Geocoder: require('cordova-plugin-googlemaps.Geocoder')(execCmd),
-  ElevationService: require('cordova-plugin-googlemaps.ElevationService')(execCmd),
-  DirectionsService: require('cordova-plugin-googlemaps.DirectionsService')(execCmd),
-  LocationService: require('cordova-plugin-googlemaps.LocationService')(execCmd),
+  HtmlInfoWindow: require('cordova-plugin-googlemaps-2.HtmlInfoWindow'),
+  LatLng: require('cordova-plugin-googlemaps-2.LatLng'),
+  LatLngBounds: require('cordova-plugin-googlemaps-2.LatLngBounds'),
+  MapTypeId: require('cordova-plugin-googlemaps-2.MapTypeId'),
+  environment: require('cordova-plugin-googlemaps-2.Environment'),
+  Geocoder: require('cordova-plugin-googlemaps-2.Geocoder')(execCmd),
+  ElevationService: require('cordova-plugin-googlemaps-2.ElevationService')(execCmd),
+  DirectionsService: require('cordova-plugin-googlemaps-2.DirectionsService')(execCmd),
+  LocationService: require('cordova-plugin-googlemaps-2.LocationService')(execCmd),
   geometry: {
-    encoding: require('cordova-plugin-googlemaps.encoding'),
-    spherical: require('cordova-plugin-googlemaps.spherical'),
-    poly: require('cordova-plugin-googlemaps.poly')
+    encoding: require('cordova-plugin-googlemaps-2.encoding'),
+    spherical: require('cordova-plugin-googlemaps-2.spherical'),
+    poly: require('cordova-plugin-googlemaps-2.poly')
   }
 };
 

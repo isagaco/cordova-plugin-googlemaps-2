@@ -2,8 +2,8 @@
 
 
 var utils = require('cordova/utils'),
-  event = require('cordova-plugin-googlemaps.event'),
-  BaseClass = require('cordova-plugin-googlemaps.BaseClass');
+  event = require('cordova-plugin-googlemaps-2.event'),
+  BaseClass = require('cordova-plugin-googlemaps-2.BaseClass');
 
 function PluginCircle(pluginMap) {
   var self = this;

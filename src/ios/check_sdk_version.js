@@ -21,8 +21,8 @@ module.exports = function (ctx) {
     }
 
     if (needToUninstall) {
-      console.info('--[cordova-plugin-googlemaps]------------------------');
-      console.info('From version 2.4.5, the cordova-plugin-googlemaps uses CocoaPod.');
+      console.info('--[cordova-plugin-googlemaps-2]------------------------');
+      console.info('From version 2.4.5, the cordova-plugin-googlemaps-2 uses CocoaPod.');
       console.info('No longer necessary com.googlemaps.ios plugin.');
       console.info('Automatic uninstalling com.googlemaps.ios plugin...');
       console.info('-----------------------------------------------------');

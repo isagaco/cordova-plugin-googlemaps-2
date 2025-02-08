@@ -1,6 +1,6 @@
 
 var utils = require('cordova/utils'),
-  BaseClass = require('cordova-plugin-googlemaps.BaseClass');
+  BaseClass = require('cordova-plugin-googlemaps-2.BaseClass');
 
 function TileOverlay(mapId, hashCode, options) {
   var tileSize = 256,
