@@ -1,4 +1,4 @@
-# Cordova GoogleMaps plugin for Android, iOS and Browser v2.8.0
+# Cordova GoogleMaps plugin for Android, iOS and Browser v2.8.0-dev
 
 | Download | Build test (multiple_maps branch)|
 |----------|---------------------------|
@@ -111,7 +111,7 @@ For browser platform,
 
 ## Release Notes
 
-  - **v2.8.0**
+  - **v2.8.0-dev**
     - Important Change: (Android)
       If `android.useAndroidX=true` and `android.enableJetifier=true` are defined in `gradle.properties`,
       this plugin uses [Maps SDK for Android v.3.0.0 BETA](https://developers.google.com/maps/documentation/android-sdk/v3-client-migration).
