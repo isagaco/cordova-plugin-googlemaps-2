@@ -2,7 +2,7 @@ var Resolver = require('jest-resolve');
 var path = require('path');
 var fs = require('fs');
 
-var pluginModuleRegex = /^cordova-plugin-googlemaps\.(.*)/;
+var pluginModuleRegex = /^cordova-plugin-googlemaps-2\.(.*)/;
 var pathBrowser = './src/browser';
 var pathWww = './www';
 

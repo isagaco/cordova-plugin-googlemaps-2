@@ -1,6 +1,6 @@
 # Pull request guide
 
-Thank you for considering to improve this cordova-plugin-googlemaps.
+Thank you for considering to improve this cordova-plugin-googlemaps-2.
 
 When you create a pull request, please make it to **multiple_maps** branch instead of master branch.
 

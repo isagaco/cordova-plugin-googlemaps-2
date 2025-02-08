@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
-<plugin id="cordova-plugin-googlemaps" version="2.8.0-dev" xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android">
-  <name>cordova-plugin-googlemaps</name>
+<plugin id="cordova-plugin-googlemaps-2" version="2.8.0-dev" xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android">
+  <name>cordova-plugin-googlemaps-2</name>
   <js-module name="Promise" src="www/Promise.js" />
   <js-module name="BaseClass" src="www/BaseClass.js">
     <runs/>
@@ -121,8 +121,8 @@
 
   This plugin works in browser application as well. One code for Android, iOS, and browsers!
   </description>
-  <repo>https://github.com/mapsplugin/cordova-plugin-googlemaps.git</repo>
-  <issue>https://github.com/mapsplugin/cordova-plugin-googlemaps/issues</issue>
+  <repo>https://github.com/GitToTheHub/cordova-plugin-googlemaps-2.git</repo>
+  <issue>https://github.com/GitToTheHub/cordova-plugin-googlemaps-2/issues</issue>
   <author>Masashi Katsumata, Hirbod</author>
 
   <license>Apache-2.0</license>
