@@ -17,12 +17,6 @@ If you want to report your problem, please share your project files on Github in
 Without your project files, I can only guess your issue (except your issue is really easy case).
 Sharing your project files in advance is the fastest way to resolve your issue.
 
-**private support**
-
-If you don't want to discover anything including code, screen captures or screen records,
-please [create an private issue ticket](https://github.com/mapsplugin/cordova-plugin-googlemaps/blob/master/.github/ISSUE_TEMPLATE/private-support.md).
-I provide a private space for chatting.
-
 *********************************************************************
 
 --->
@@ -42,7 +36,6 @@ I provide a private space for chatting.
 insert the output from the command here
 ```
 
-**If you use `@ionic-native/google-maps`, please tell the package.json (only `@ionic-native/core` and `@ionic-native/google-maps` are fine mostly)**
 ```
 @ionic-native/core : 
 @ionic-native/google-maps : 
@@ -76,8 +69,3 @@ Screen captures, and/or native logs(such as Logcat, xcode logs) are appreciate.
 Giving much information, you are waiting time is less.
 Thank you for your cooperation.
 ```
-
-**Support this plugin activity**
-
-I appreicate if you give me a beer :beer: from [here](
-https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=SQPLZJ672HJ9N&lc=US&item_name=Cordova%2dGoogleMaps%2dPlugin&amount=5%2e00&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donate_LG%2egif%3aNonHosted)

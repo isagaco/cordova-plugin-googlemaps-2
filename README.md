@@ -83,14 +83,6 @@ For browser platform,
 
 ---------------------------------------------------------------------------------------------------------
 
-## Please support this plugin activity.
-
-  In order to keep this plugin as free, please consider to donate little amount for this project.
-
-  [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=SQPLZJ672HJ9N&lc=US&item_name=cordova%2dgooglemaps%2dplugin&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHosted)
-
----------------------------------------------------------------------------------------------------------
-
 ## Release Notes
 
 See [CHANGELOG.md](CHANGELOG.md)
