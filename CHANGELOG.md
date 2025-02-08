@@ -20,6 +20,7 @@
   - For the deprecated Crosswalk WebView, the preference key "BackgroundColor" was wrongly set with "0". It would have to be set with "#000000", but this would also set the splashscreen backround color to black. So the preference is removed.
 - Fix: uses-sdk:minSdkVersion 19 cannot be smaller than version 21 declared in library [androidx.core:core-splashscreen:1.0.0]
   - In plugin.xml "android-minSdkVersion" ist set to 19 for the config.xml and must be set to 21, because the referenced Library "androidx.core:core-splashscreen:1.0.0" defines minSdkVersion to 21. Both cannot live side by side.
+- Resolve blank map when running compiled with latest cordova-android (which uses AGP 4.1.3)
 
 ## iOS
 - Fix misplaced or white splash screen
