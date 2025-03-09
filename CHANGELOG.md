@@ -36,3 +36,33 @@
 - Add: (Android/iOS/Browser) DirectionsService and `map.addDirectionsRenderer()`
 - Change: (Android/iOS/Browser) `map.setDiv()`, `map.setOptions()` returns `Promise`.
 - Change: (Android/iOS/Browser) Hides `__pluginDomId` and `__pluginMapId` properties.
+
+## 2.7.1
+
+- Fix: (iOS) UiWebView references present in v2.7.0
+
+## 2.7.0
+
+- Re-adoption: cordova-plugin-googlemaps-sdk dependency
+- Important update: No longer support UIWebView on iOS. WKWebView only.
+- Fix: (iOS) Can't load image files from local host on ionic 4 / 5
+- Update: (Android) prevent null pointer error in AsyncLoadImage.java
+- Fix: Css animation interference when call setDiv and there is a push/pop page
+- Fix: (Android/iOS/Browser) KML parser crash
+- Fix: flickering and wrong rendering of some DOM elements
+- Add: map.stopAnimation()
+- Fix: can't remove map while map.animateCamera() is running
+- Update: (Android) Increase cache memory size
+- Update: (Android/iOS) Danish localization
+- Fix: (Android) Prevent resize event after map.setDiv(null)
+- Fix: (Android/iOS) Can not interactive with the map inside
+- Fix: jslint errors
+- Fix: marker.setIcon crashes
+- Update: Set default value range to heading and tilt
+- Fix: (Android/iOS) touch detection is wrong after clicking on back button very soon.
+- Fix: An error occurs when you click a marker of marker cluster #2660
+- Remove promise-7.0.4-min.js.map
+- Fix: (iOS) bug fix: App crashes if "bearing" property is ""
+- Fix: HTMLColor2RGBA() converts to incorrect value
+- Fix: (Android) Can't load marker image from the Internet
+- many bug fixes...

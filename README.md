@@ -16,7 +16,6 @@ This plugin allows you to display a native Google Maps layer in your application
 
 ## Installation
 
-
 ### GitHub
 ```bash
 cordova plugin add https://github.com/GitToTheHub/cordova-plugin-googlemaps-2
