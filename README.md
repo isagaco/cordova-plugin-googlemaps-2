@@ -50,6 +50,40 @@ For browser platform,
 
   ```
 
+### iOS
+This plugin uses Cocoapods since Version 2.8.0 to add GoogleMaps as a dependency.
+Which version of GoogleMaps is used depends on the iOS deployment target you set in your config.xml with `<preference name="deployment-target" value="..." />`.
+
+The deployment-target 13.4 would use GoogleMaps 7.4.0.
+
+Since GoogleMaps 7.3.0 it's possible to run the plugin on a simulator on a Mac with a M CPU (Apple Silicon).
+
+You can see all versions here:
+
+https://developers.google.com/maps/documentation/ios-sdk/release-notes
+
+If you upgrade from plugin version 2.7.1 to Version 2.8.0 you have to remove the old GoolgeMaps dependency:
+
+```bash
+cordova plugin remove com.googlemaps.ios
+```
+
+Also you have to remove the old GoogleMaps dependency from your `package.json`:
+
+```json
+  "cordova-plugin-googlemaps-sdk": "github:mapsplugin/cordova-plugin-googlemaps-sdk",
+```
+
+If you used the the old repository, you have to remove it also:
+
+```bash
+cordova plugin remove cordova-plugin-googlemaps
+```
+
+Plugin version 2.7.1 integrated GoogleMaps by a [repository clone](https://github.com/mapsplugin/cordova-plugin-googlemaps-sdk) and was at least updated to version 3.9.0: 
+
+After that, you can add this plugin.
+
 ## Install optional variables (config.xml)
 
 ### Android
