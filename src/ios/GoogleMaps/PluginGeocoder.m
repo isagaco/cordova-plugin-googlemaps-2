@@ -209,88 +209,94 @@
 
 - (NSArray *)geocoder_callback:(NSArray *)placemarks error:(NSError *)error
 {
-  NSMutableArray *results = [[NSMutableArray alloc] init];
-  if ([placemarks count] > 0) {
-
-    CLPlacemark *placemark;
-    CLLocation *location;
-    CLLocationCoordinate2D coordinate;
-    for (int i = 0; i < placemarks.count; i++) {
-      NSMutableDictionary *result = [[NSMutableDictionary alloc] init];
-
-      NSMutableDictionary *position = [[NSMutableDictionary alloc] init];
-      placemark = [placemarks objectAtIndex:i];
-      location = placemark.location;
-      coordinate = location.coordinate;
-      [position setObject:[NSNumber numberWithDouble:coordinate.latitude] forKey:@"lat"];
-      [position setObject:[NSNumber numberWithDouble:coordinate.longitude] forKey:@"lng"];
-      [result setObject:position forKey:@"position"];
-
-
-      if (placemark.administrativeArea) {
-        [result setObject:placemark.administrativeArea forKey:@"adminArea"];
-      }
-      if (placemark.subAdministrativeArea) {
-        [result setObject:placemark.subAdministrativeArea forKey:@"subAdminArea"];
-      }
-
-      if (placemark.locality) {
-        [result setObject:placemark.locality forKey:@"locality"];
-      }
-
-      if (placemark.country) {
-        [result setObject:placemark.country forKey:@"country"];
-      }
-      if (placemark.postalCode) {
-        [result setObject:placemark.postalCode forKey:@"postalCode"];
-      }
-      if (placemark.subLocality) {
-        [result setObject:placemark.subLocality forKey:@"subLocality"];
-      }
-      if (placemark.subThoroughfare) {
-        [result setObject:placemark.subThoroughfare forKey:@"subThoroughfare"];
-      }
-      if (placemark.thoroughfare) {
-        [result setObject:placemark.thoroughfare forKey:@"thoroughfare"];
-      }
-
-      NSMutableDictionary *extra = [[NSMutableDictionary alloc] init];
-      if (placemark.ocean) {
-        [extra setObject:placemark.ocean forKey:@"ocean"];
-      }
-      if (placemark.addressDictionary) {
-        [extra setObject:placemark.addressDictionary forKey:@"address"];
-      }
-      if (placemark.description) {
-        [extra setObject:placemark.description forKey:@"description"];
-      }
-      if (placemark.inlandWater) {
-        [extra setObject:placemark.inlandWater forKey:@"inlandWater"];
-      }
-      if (placemark.region) {
-        // iOS8 SDK still uses CLRegion inside CLPlaceMarker though,
-        // to supress the warning, cast to CLCircularRegion.
-        // http://www.4byte.cn/question/288833/deprecated-clregion-methods-how-to-get-radius.html
-        #ifdef __IPHONE_7_0
-          CLCircularRegion *circularRegion = (CLCircularRegion *)placemark.region;
-          [extra setObject:[NSString stringWithFormat:@"%f", circularRegion.radius] forKey:@"radius"];
-        #else
-          [extra setObject:[NSString stringWithFormat:@"%f", placemark.region.radius] forKey:@"radius"];
-        #endif
+    NSMutableArray *results = [[NSMutableArray alloc] init];
+    
+    if ([placemarks count] > 0) {
+        
+        for (int i = 0; i < placemarks.count; i++) {
+            CLPlacemark *placemark = [placemarks objectAtIndex:i];
+            CLLocation *location = placemark.location;
+            CLLocationCoordinate2D coordinate = location.coordinate;
+            
+            NSMutableDictionary *position = [[NSMutableDictionary alloc] init];
+            [position setObject:[NSNumber numberWithDouble:coordinate.latitude] forKey:@"lat"];
+            [position setObject:[NSNumber numberWithDouble:coordinate.longitude] forKey:@"lng"];
+            
+            NSMutableDictionary *result = [[NSMutableDictionary alloc] init];
+            [result setObject:position forKey:@"position"];
 
 
-        [extra setObject:placemark.region.identifier forKey:@"identifier"];
-      }
-      if (placemark.name) {
-        [extra setObject:placemark.name forKey:@"name"];
-      }
-      [result setObject:extra forKey:@"extra"];
+            if (placemark.administrativeArea) {
+                [result setObject:placemark.administrativeArea forKey:@"adminArea"];
+            }
+            
+            if (placemark.subAdministrativeArea) {
+                [result setObject:placemark.subAdministrativeArea forKey:@"subAdminArea"];
+            }
 
-      [results addObject:result];
+            if (placemark.locality) {
+                [result setObject:placemark.locality forKey:@"locality"];
+            }
+
+            if (placemark.country) {
+                [result setObject:placemark.country forKey:@"country"];
+            }
+            
+            if (placemark.postalCode) {
+                [result setObject:placemark.postalCode forKey:@"postalCode"];
+            }
+            
+            if (placemark.subLocality) {
+                [result setObject:placemark.subLocality forKey:@"subLocality"];
+            }
+            
+            if (placemark.subThoroughfare) {
+                [result setObject:placemark.subThoroughfare forKey:@"subThoroughfare"];
+            }
+            
+            if (placemark.thoroughfare) {
+                [result setObject:placemark.thoroughfare forKey:@"thoroughfare"];
+            }
+
+            // Set extra
+            NSMutableDictionary *extra = [[NSMutableDictionary alloc] init];
+            
+            if (placemark.ocean) {
+                [extra setObject:placemark.ocean forKey:@"ocean"];
+            }
+            
+            if (placemark.description) {
+                [extra setObject:placemark.description forKey:@"description"];
+            }
+            
+            if (placemark.inlandWater) {
+                [extra setObject:placemark.inlandWater forKey:@"inlandWater"];
+            }
+            
+            if (placemark.region) {
+                // iOS8 SDK still uses CLRegion inside CLPlaceMarker though,
+                // to supress the warning, cast to CLCircularRegion.
+                // http://www.4byte.cn/question/288833/deprecated-clregion-methods-how-to-get-radius.html
+                #ifdef __IPHONE_7_0
+                  CLCircularRegion *circularRegion = (CLCircularRegion *)placemark.region;
+                  [extra setObject:[NSString stringWithFormat:@"%f", circularRegion.radius] forKey:@"radius"];
+                #else
+                  [extra setObject:[NSString stringWithFormat:@"%f", placemark.region.radius] forKey:@"radius"];
+                #endif
+
+                [extra setObject:placemark.region.identifier forKey:@"identifier"];
+            }
+            
+            if (placemark.name) {
+                [extra setObject:placemark.name forKey:@"name"];
+            }
+            
+            [result setObject:extra forKey:@"extra"];
+            [results addObject:result];
+        }
     }
-  }
-  return results;
-
+    
+    return results;
 }
 
 @end

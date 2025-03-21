@@ -28,6 +28,7 @@
   - The splash screen on iOS was misplaced or was not appearing. To fix this, the views will not be removed anymore from the view hierarchy and the plugin layer will be send only to the front, when the splash screen is dismissed.
 - Remove reference of CDVCommandDelegateImpl
   - Since cordova-ios 7.x. CDVCommandDelegateImpl is private and no longer public
+- Geocoder.geocode: Removed from result `extra.address`, because `CLPlacemark.addressDictionary` is deprecated, which was used here.
 
 ## Common
 - Add: (Android/iOS/Browser) `mapOptions.preferences.restriction` which is able to set the camera bounds.
