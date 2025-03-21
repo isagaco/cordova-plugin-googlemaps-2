@@ -99,28 +99,22 @@ After that, you can add this plugin.
 ---------------------------------------------------------------------------------------------------------
 
 ## Release Notes
-
 See [CHANGELOG.md](CHANGELOG.md)
 
----------------------------------------------------------------------------------------------------------
-
 ## Demos
+You can see a demo in your browser:
 
-
-[Demo (Browser)](https://mapsplugin.github.io/HelloGoogleMap/)
+https://mapsplugin.github.io/HelloGoogleMap
 
 ![](https://github.com/GitToTheHub/cordova-plugin-googlemaps-doc/raw/master/v1.4.0/top/demo.gif)
 
-
----------------------------------------------------------------------------------------------------------
-
 ## Documentation
 
-![](https://github.com/GitToTheHub/cordova-plugin-googlemaps-2/blob/master/images/documentations.png?raw=true)
+You can find the documentation in its own repository:
 
-[All documentations are here!!](https://github.com/GitToTheHub/cordova-plugin-googlemaps-doc/blob/master/v2.6.0/README.md)
+[https://github.com/GitToTheHub/cordova-plugin-googlemaps-doc](https://github.com/GitToTheHub/cordova-plugin-googlemaps-doc/blob/master/v2.6.0/README.md)
 
-https://github.com/GitToTheHub/cordova-plugin-googlemaps-doc/blob/master/v2.6.0/README.md
+It's sourced out, so this repository gets not too big and takes less space when added to a project.
 
 **Quick examples**
 <table>
