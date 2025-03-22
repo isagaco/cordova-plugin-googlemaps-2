@@ -10,8 +10,7 @@
 
 @implementation PluginLocationService
 
-- (void)pluginInitialize
-{
+- (void)pluginInitialize {
     self.locationCommandQueue = [[NSMutableArray alloc] init];
     self.lastLocation = nil;
 }
@@ -20,144 +19,104 @@
  * Return 1 if the app has geolocation permission
  */
 - (void)hasPermission:(CDVInvokedUrlCommand*)command {
+    CLAuthorizationStatus authorizationStatus = [self getAuthorizationStatus];
 
-    int result = 1;
-    CLAuthorizationStatus status = [CLLocationManager authorizationStatus];
-    if (status == kCLAuthorizationStatusDenied ||
-        status == kCLAuthorizationStatusRestricted) {
-        result = 0;
-    }
-    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsInt:result];
-    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+    // Result for the callback
+    int result =
+        authorizationStatus == kCLAuthorizationStatusDenied ||
+        authorizationStatus == kCLAuthorizationStatusRestricted ? 0 : 1;
+    
+    [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK
+                                                                messageAsInt:result]
+                                callbackId:command.callbackId];
 
 }
+
 /**
  * Return the current position based on GPS
  */
--(void)getMyLocation:(CDVInvokedUrlCommand *)command
-{
-  dispatch_async(dispatch_get_main_queue(), ^{
-    // Obtain the authorizationStatus
-    CLAuthorizationStatus status = [CLLocationManager authorizationStatus];
-    if (status == kCLAuthorizationStatusDenied ||
-        status == kCLAuthorizationStatusRestricted) {
-        //----------------------------------------------------
-        // kCLAuthorizationStatusDenied
-        // kCLAuthorizationStatusRestricted
-        //----------------------------------------------------
+-(void)getMyLocation:(CDVInvokedUrlCommand *)command {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        // Obtain the authorizationStatus
+        CLAuthorizationStatus status = [self getAuthorizationStatus];
+        
+        if (status == kCLAuthorizationStatusDenied || status == kCLAuthorizationStatusRestricted) {
+            NSDictionary *resultData = @{
+                @"status": [NSNumber numberWithBool:NO],
+                @"error_message": [PluginUtil PGM_LOCALIZATION:@"LOCATION_IS_DENIED_MESSAGE"],
+                @"error_code": @"service_denied"
+            };
 
-        NSString *error_code = @"service_denied";
-        NSString *error_message = [PluginUtil PGM_LOCALIZATION:@"LOCATION_IS_DENIED_MESSAGE"];
-
-        NSMutableDictionary *json = [NSMutableDictionary dictionary];
-        [json setObject:[NSNumber numberWithBool:NO] forKey:@"status"];
-        [json setObject:[NSString stringWithString:error_message] forKey:@"error_message"];
-        [json setObject:[NSString stringWithString:error_code] forKey:@"error_code"];
-
-        CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsDictionary:json];
-        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
-//
-//        NSString *LOCATION_IS_UNAVAILABLE_ERROR_TITLE = [PluginUtil PGM_LOCALIZATION:@"LOCATION_IS_UNAVAILABLE_ERROR_TITLE"];
-//        NSString *LOCATION_IS_UNAVAILABLE_ERROR_MESSAGE = [PluginUtil PGM_LOCALIZATION:@"LOCATION_IS_UNAVAILABLE_ERROR_MESSAGE"];
-//        UIAlertController* alert = [UIAlertController alertControllerWithTitle:LOCATION_IS_UNAVAILABLE_ERROR_TITLE
-//                                                                       message:LOCATION_IS_UNAVAILABLE_ERROR_MESSAGE
-//                                                                preferredStyle:UIAlertControllerStyleAlert];
-//
-//        NSString *closeBtnLabel = [PluginUtil PGM_LOCALIZATION:@"CLOSE_BUTTON"];
-//        UIAlertAction* ok = [UIAlertAction actionWithTitle:closeBtnLabel
-//                                                     style:UIAlertActionStyleDefault
-//                                                   handler:^(UIAlertAction* action)
-//            {
-//                NSString *error_code = @"service_denied";
-//                NSString *error_message = [PluginUtil PGM_LOCALIZATION:@"LOCATION_IS_DENIED_MESSAGE"];
-//
-//                NSMutableDictionary *json = [NSMutableDictionary dictionary];
-//                [json setObject:[NSNumber numberWithBool:NO] forKey:@"status"];
-//                [json setObject:[NSString stringWithString:error_message] forKey:@"error_message"];
-//                [json setObject:[NSString stringWithString:error_code] forKey:@"error_code"];
-//
-//                CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsDictionary:json];
-//                [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
-//                [alert dismissViewControllerAnimated:YES completion:nil];
-//            }];
-//
-//        [alert addAction:ok];
-//
-//
-//        [self.viewController presentViewController:alert
-//                                          animated:YES
-//                                        completion:nil];
-
-    } else {
-
-        if (self.locationManager == nil) {
-            self.locationManager = [[CLLocationManager alloc] init];
-        }
-        self.locationManager.delegate = self;
-
-
-        //----------------------------------------------------
-        // kCLAuthorizationStatusNotDetermined
-        // kCLAuthorizationStatusAuthorized
-        // kCLAuthorizationStatusAuthorizedAlways
-        // kCLAuthorizationStatusAuthorizedWhenInUse
-        //----------------------------------------------------
-        CLLocationAccuracy locationAccuracy = kCLLocationAccuracyNearestTenMeters;
-        NSDictionary *opts = [command.arguments objectAtIndex:0];
-        BOOL isEnabledHighAccuracy = NO;
-        if ([opts objectForKey:@"enableHighAccuracy"]) {
-            isEnabledHighAccuracy = [[opts objectForKey:@"enableHighAccuracy"] boolValue];
-        }
-
-        if (isEnabledHighAccuracy == YES) {
-            locationAccuracy = kCLLocationAccuracyBestForNavigation;
-            self.locationManager.distanceFilter = 5;
+            [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR
+                                                                 messageAsDictionary:resultData]
+                                        callbackId:command.callbackId];
+        
+        /**
+         * kCLAuthorizationStatusNotDetermined
+         * kCLAuthorizationStatusAuthorized
+         * kCLAuthorizationStatusAuthorizedAlways
+         * kCLAuthorizationStatusAuthorizedWhenInUse
+         */
         } else {
-            self.locationManager.distanceFilter = 10;
-        }
-        self.locationManager.desiredAccuracy = locationAccuracy;
+            if (self.locationManager == nil) self.locationManager = [CLLocationManager new];
+            self.locationManager.delegate = self;
+            
+            CLLocationAccuracy locationAccuracy = kCLLocationAccuracyNearestTenMeters;
+            NSDictionary *opts = [command.arguments objectAtIndex:0];
+            BOOL isEnabledHighAccuracy = NO;
+            
+            if ([opts objectForKey:@"enableHighAccuracy"]) {
+                isEnabledHighAccuracy = [[opts objectForKey:@"enableHighAccuracy"] boolValue];
+            }
 
-        //http://stackoverflow.com/questions/24268070/ignore-ios8-code-in-xcode-5-compilation
-        [self.locationManager requestWhenInUseAuthorization];
+            if (isEnabledHighAccuracy == YES) {
+                locationAccuracy = kCLLocationAccuracyBestForNavigation;
+                self.locationManager.distanceFilter = 5;
+            } else {
+                self.locationManager.distanceFilter = 10;
+            }
+            
+            self.locationManager.desiredAccuracy = locationAccuracy;
 
-        if (self.lastLocation && -[self.lastLocation.timestamp timeIntervalSinceNow] < 2) {
-          //---------------------------------------------------------------------
-          // If the user requests the location in two seconds from the last time,
-          // return the last result in order to save battery usage.
-          // (Don't request the device location too much! Save battery usage!)
-          //---------------------------------------------------------------------
-          CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:self.lastResult];
-          [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
-          return;
-        }
+            // http://stackoverflow.com/questions/24268070/ignore-ios8-code-in-xcode-5-compilation
+            [self.locationManager requestWhenInUseAuthorization];
 
-        if (self.locationCommandQueue.count == 0) {
-          // Executes getMyLocation() first time
+            if (self.lastLocation && -[self.lastLocation.timestamp timeIntervalSinceNow] < 2) {
+              //---------------------------------------------------------------------
+              // If the user requests the location in two seconds from the last time,
+              // return the last result in order to save battery usage.
+              // (Don't request the device location too much! Save battery usage!)
+              //---------------------------------------------------------------------
+              CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:self.lastResult];
+              [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+              return;
+            }
 
-          [self.locationManager stopUpdatingLocation];
+            if (self.locationCommandQueue.count == 0) {
+              // Executes getMyLocation() first time
+              [self.locationManager stopUpdatingLocation];
 
-          // Why do I have to still support iOS9?
-          [NSTimer scheduledTimerWithTimeInterval:6000
-                                             target:self
+              // Why do I have to still support iOS9?
+              [NSTimer scheduledTimerWithTimeInterval:6000
+                                               target:self
                                              selector:@selector(locationFailed)
                                              userInfo:nil
-                                             repeats:NO];
-          [self.locationManager startUpdatingLocation];
-        }
-        [self.locationCommandQueue addObject:command];
+                                              repeats:NO];
+            
+              [self.locationManager startUpdatingLocation];
+            }
+            
+            [self.locationCommandQueue addObject:command];
 
-        //CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
-        //[pluginResult setKeepCallbackAsBool:YES];
-        //[self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
-    }
-  });
+            //CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+            //[pluginResult setKeepCallbackAsBool:YES];
+            //[self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+        }
+    });
 }
 
--(void)locationFailed
-{
-    if (self.lastLocation != nil) {
-        return;
-    }
+-(void)locationFailed {
+    if (self.lastLocation != nil) return;
 
     // Timeout
     [self.locationManager stopUpdatingLocation];
@@ -228,6 +187,26 @@
     }
     [self.locationCommandQueue removeAllObjects];
 
+}
+
+/**
+ * Extra method to get authorizationStatus from CLLocationManager depending on the iOS Version.
+ * - On iOS 13 and older it gets it by [CLLocationManager authorizationStatus]
+ * - On iOS 14 and newer it gets it by [CLLocationManager new].authorizationStatus
+ */
+- (CLAuthorizationStatus) getAuthorizationStatus {
+    // Since iOS 14, authorizationStatus have to get from a CLLocationManager instance
+    if (@available(iOS 14, *)) {
+        return [CLLocationManager new].authorizationStatus;
+        
+        // iOS 13 and older
+    } else {
+        // Suppress deprecation warning of using authorizationStatus in the old way
+        #pragma clang diagnostic push
+        #pragma clang diagnostic ignored "-Wdeprecated-declarations"
+        return [CLLocationManager authorizationStatus];
+        #pragma clang diagnostic pop
+    }
 }
 
 @end
