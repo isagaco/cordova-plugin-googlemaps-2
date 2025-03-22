@@ -225,12 +225,12 @@
     if (self.pluginLayer != nil) self.pluginLayer.isSuspended = false;
 
     dispatch_async(dispatch_get_main_queue(), ^{
-
+        
         CDVViewController *cdvViewController = (CDVViewController*)self.viewController;
         NSDictionary *meta = [command.arguments objectAtIndex:0];
         NSString *mapId = [meta objectForKey:@"__pgmId"];
         NSDictionary *initOptions = [command.arguments objectAtIndex:1];
-
+        
         // Wrapper view
         PluginMapViewController* viewCtrl = [[PluginMapViewController alloc] initWithOptions:nil];
         viewCtrl.webView = self.webView;
@@ -239,12 +239,12 @@
         viewCtrl.title = mapId;
         viewCtrl.divId = nil;
         [viewCtrl.view setHidden:YES];
-
+        
         // Create an instance of the Map class everytime.
         PluginMap *pluginMap = [PluginMap new];
         [pluginMap pluginInitialize];
         pluginMap.mapCtrl = viewCtrl;
-
+        
         // Hack:
         // In order to load the plugin instance of the same class but different names,
         // register the map plugin instance into the pluginObjects directly.
@@ -261,7 +261,7 @@
         [pluginMap pluginInitialize];
         
         [self.viewPlugins setObject:pluginMap forKey:mapId];
-
+        
         CGRect rect = CGRectZero;
         
         // Sets the map div id.
@@ -272,7 +272,7 @@
                 if (domInfo != nil) rect = CGRectFromString([domInfo objectForKey:@"size"]);
             }
         }
-
+        
         // Generate an instance of GMSMapView;
         GMSCameraPosition *camera = nil;
         int bearing = 0;
@@ -289,13 +289,13 @@
             } else {
                 bearing = 0;
             }
-
+            
             if ([cameraOptions valueForKey:@"tilt"] && [cameraOptions valueForKey:@"tilt"] != [NSNull null]) {
                 angle = [[cameraOptions valueForKey:@"tilt"] doubleValue];
             } else {
                 angle = 0;
             }
-    
+            
             if ([cameraOptions valueForKey:@"zoom"] && [cameraOptions valueForKey:@"zoom"] != [NSNull null]) {
                 zoom = [[cameraOptions valueForKey:@"zoom"] doubleValue];
             } else {
@@ -323,10 +323,10 @@
                         longitude = [[latLng valueForKey:@"lng"] doubleValue];
                         [path addLatitude:latitude longitude:longitude];
                     }
-
+                    
                     cameraBounds = [[GMSCoordinateBounds alloc] initWithPath:path];
                     //CLLocationCoordinate2D center = cameraBounds.center;
-
+                    
                     latitude = cameraBounds.center.latitude;
                     longitude = cameraBounds.center.longitude;
                     
@@ -347,8 +347,12 @@
                                                   zoom:zoom
                                                bearing:bearing
                                           viewingAngle:angle];
-      
-        viewCtrl.map = [GMSMapView mapWithFrame:rect camera:camera];
+        
+        GMSMapViewOptions *gmsMapViewOptions = [GMSMapViewOptions new];
+        gmsMapViewOptions.frame = rect;
+        gmsMapViewOptions.camera = camera;
+        
+        viewCtrl.map = [[GMSMapView alloc] initWithOptions:gmsMapViewOptions];
         viewCtrl.view = viewCtrl.map;
 
         //mapType
