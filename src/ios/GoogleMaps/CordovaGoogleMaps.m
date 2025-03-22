@@ -367,7 +367,7 @@
                                       ^() {return kGMSTypeNone; }, @"MAP_TYPE_NONE",
                                       nil];
 
-            typedef GMSMapViewType (^CaseBlock)();
+            typedef GMSMapViewType (^CaseBlock)(void);
             GMSMapViewType mapType;
             CaseBlock caseBlock = mapTypes[typeStr];
             

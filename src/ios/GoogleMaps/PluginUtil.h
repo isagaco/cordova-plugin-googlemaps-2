@@ -53,7 +53,7 @@ typedef void (^MYCompletionHandler)(NSError *error);
 // animationDidStop for group animation
 // http://stackoverflow.com/a/28051909/697856
 //
-typedef void (^TIFAnimationGroupCompletionBlock)();
+typedef void (^TIFAnimationGroupCompletionBlock)(void);
 @interface CAAnimationGroup (Blocks)
 - (void)setCompletionBlock:(TIFAnimationGroupCompletionBlock)handler;
 @end

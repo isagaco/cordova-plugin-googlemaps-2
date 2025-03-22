@@ -696,7 +696,7 @@
   }];
 }
 
--(void)setMarkerAnimation_:(NSString *)animation marker:(GMSMarker *)marker callbackBlock:(void (^)()) callbackBlock {
+-(void)setMarkerAnimation_:(NSString *)animation marker:(GMSMarker *)marker callbackBlock:(void (^)(void)) callbackBlock {
 
   animation = [animation uppercaseString];
   SWITCH(animation) {
@@ -721,7 +721,7 @@
  * (memo) http://qiita.com/edo_m18/items/4309d01b67ee42c35b3c
  * (memo) http://stackoverflow.com/questions/12164049/animationdidstop-for-group-animation
  */
--(void)setDropAnimation_:(GMSMarker *)marker callbackBlock:(void (^)()) callbackBlock {
+-(void)setDropAnimation_:(GMSMarker *)marker callbackBlock:(void (^)(void)) callbackBlock {
   /**
    * Marker drop animation
    */
@@ -759,7 +759,7 @@
   [marker.layer addAnimation:group forKey:@"dropMarkerAnim"];
 
 }
--(void)setBounceAnimation_:(GMSMarker *)marker callbackBlock:(void (^)()) callbackBlock {
+-(void)setBounceAnimation_:(GMSMarker *)marker callbackBlock:(void (^)(void)) callbackBlock {
   /**
    * Marker bounce animation
    */

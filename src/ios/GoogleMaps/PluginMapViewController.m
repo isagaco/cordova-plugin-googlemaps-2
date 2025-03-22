@@ -936,7 +936,7 @@
                                ^() {return NSTextAlignmentCenter; }, @"center",
                                nil];
 
-    typedef NSTextAlignment (^CaseBlock)();
+      typedef NSTextAlignment (^CaseBlock)(void);
     CaseBlock caseBlock = aligments[textAlignValue];
     if (caseBlock) {
       textAlignment = caseBlock();
