@@ -12,13 +12,14 @@
 
 //This is invoked every time the view.panorama property changes.
 - (void)panoramaView:(GMSPanoramaView *)view didMoveToPanorama:(nullable GMSPanorama *)panorama {
-  [self locationChangeEvent:panorama.coordinate];
-
+    [self locationChangeEvent:panorama.coordinate];
 }
 
 // Called when the panorama change was caused by invoking moveToPanoramaNearCoordinate:.
-- (void)panoramaView:(GMSPanoramaView *)view didMoveToPanorama:(nonnull GMSPanorama *)panorama nearCoordinate:(CLLocationCoordinate2D)coordinate {
-  [self locationChangeEvent:coordinate];
+- (void)panoramaView:(GMSPanoramaView *)view
+   didMoveToPanorama:(nonnull GMSPanorama *)panorama
+      nearCoordinate:(CLLocationCoordinate2D)coordinate {
+    [self locationChangeEvent:coordinate];
 }
 
 // Called when moveNearCoordinate: produces an error.

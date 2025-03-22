@@ -201,12 +201,8 @@
 }
 
 - (void)pluginUnload {
-
-  // Plugin destroy
   self.isRemoved = YES;
   [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-    self.panoramaCtrl.view = nil;
-    self.panoramaCtrl.panoramaView = nil;
     self.panoramaCtrl = nil;
   }];
 }

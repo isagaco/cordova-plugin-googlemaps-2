@@ -17,7 +17,7 @@
 
 @interface PluginStreetViewPanoramaController : PluginViewController<GMSPanoramaViewDelegate>
 
-@property (nonatomic) GMSPanoramaView* panoramaView;
+@property (nonatomic) GMSPanoramaView* _Nonnull panoramaView;
 
 //----------------------------------------------------
 // In order to keep the compatibility with Android,
@@ -28,22 +28,31 @@
 //- (void)panoramaView:(GMSPanoramaView *)view willMoveToPanoramaID:(NSString *)panoramaID;
 
 //This is invoked every time the view.panorama property changes.
-- (void)panoramaView:(GMSPanoramaView *)view didMoveToPanorama:(nullable GMSPanorama *)panorama;
+- (void)panoramaView:(GMSPanoramaView * _Nonnull)view
+   didMoveToPanorama:(nullable GMSPanorama *)panorama;
 
 // Called when the panorama change was caused by invoking moveToPanoramaNearCoordinate:.
-- (void)panoramaView:(GMSPanoramaView *)view didMoveToPanorama:(nonnull GMSPanorama *)panorama nearCoordinate:(CLLocationCoordinate2D)coordinate;
+- (void)panoramaView:(GMSPanoramaView * _Nonnull)view
+   didMoveToPanorama:(nonnull GMSPanorama *)panorama
+      nearCoordinate:(CLLocationCoordinate2D)coordinate;
 
 // Called when moveNearCoordinate: produces an error.
-- (void)panoramaView:(GMSPanoramaView *)view error:(nonnull NSError *)error onMoveNearCoordinate:(CLLocationCoordinate2D)coordinate;
+- (void)panoramaView:(GMSPanoramaView * _Nonnull)view
+               error:(nonnull NSError *)error
+onMoveNearCoordinate:(CLLocationCoordinate2D)coordinate;
 
 // Called when moveToPanoramaID: produces an error.
-- (void)panoramaView:(GMSPanoramaView *)view error:(nonnull NSError *)error onMoveToPanoramaID:(nonnull NSString *)panoramaID;
+- (void)panoramaView:(GMSPanoramaView * _Nonnull)view
+               error:(nonnull NSError *)error
+  onMoveToPanoramaID:(nonnull NSString *)panoramaID;
 
 // Called repeatedly during changes to the camera on GMSPanoramaView.
-- (void)panoramaView:(GMSPanoramaView *)view didMoveCamera:(nonnull GMSPanoramaCamera *)camera;
+- (void)panoramaView:(GMSPanoramaView * _Nonnull)view
+       didMoveCamera:(nonnull GMSPanoramaCamera *)camera;
 
 // Called when a user has tapped on the GMSPanoramaView, but this tap was not consumed (taps may be consumed by e.g., tapping on a navigation arrow).
-- (void)panoramaView:(GMSPanoramaView *)view didTap:(CGPoint)point;
+- (void)panoramaView:(GMSPanoramaView * _Nonnull)view
+              didTap:(CGPoint)point;
 
 
 //// Called after a marker has been tapped.
