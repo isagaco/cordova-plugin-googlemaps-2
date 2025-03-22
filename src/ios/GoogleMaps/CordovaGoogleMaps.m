@@ -222,172 +222,173 @@
  * Intialize the map
  */
 - (void)getMap:(CDVInvokedUrlCommand *)command {
-  if (self.pluginLayer != nil) {
-    self.pluginLayer.isSuspended = false;
-  }
+    if (self.pluginLayer != nil) self.pluginLayer.isSuspended = false;
 
+    dispatch_async(dispatch_get_main_queue(), ^{
 
-  dispatch_async(dispatch_get_main_queue(), ^{
+        CDVViewController *cdvViewController = (CDVViewController*)self.viewController;
+        NSDictionary *meta = [command.arguments objectAtIndex:0];
+        NSString *mapId = [meta objectForKey:@"__pgmId"];
+        NSDictionary *initOptions = [command.arguments objectAtIndex:1];
 
-    CDVViewController *cdvViewController = (CDVViewController*)self.viewController;
-    NSDictionary *meta = [command.arguments objectAtIndex:0];
-    NSString *mapId = [meta objectForKey:@"__pgmId"];
-    NSDictionary *initOptions = [command.arguments objectAtIndex:1];
+        // Wrapper view
+        PluginMapViewController* viewCtrl = [[PluginMapViewController alloc] initWithOptions:nil];
+        viewCtrl.webView = self.webView;
+        viewCtrl.isFullScreen = YES;
+        viewCtrl.overlayId = mapId;
+        viewCtrl.title = mapId;
+        viewCtrl.divId = nil;
+        [viewCtrl.view setHidden:YES];
 
-    // Wrapper view
-    PluginMapViewController* viewCtrl = [[PluginMapViewController alloc] initWithOptions:nil];
-    viewCtrl.webView = self.webView;
-    viewCtrl.isFullScreen = YES;
-    viewCtrl.overlayId = mapId;
-    viewCtrl.title = mapId;
-    viewCtrl.divId = nil;
-    [viewCtrl.view setHidden:YES];
+        // Create an instance of the Map class everytime.
+        PluginMap *pluginMap = [PluginMap new];
+        [pluginMap pluginInitialize];
+        pluginMap.mapCtrl = viewCtrl;
 
-    // Create an instance of the Map class everytime.
-    PluginMap *pluginMap = [[PluginMap alloc] init];
-    [pluginMap pluginInitialize];
-    pluginMap.mapCtrl = viewCtrl;
-
-    // Hack:
-    // In order to load the plugin instance of the same class but different names,
-    // register the map plugin instance into the pluginObjects directly.
-    if ([pluginMap respondsToSelector:@selector(setViewController:)]) {
-      [pluginMap setViewController:cdvViewController];
-    }
-    if ([pluginMap respondsToSelector:@selector(setCommandDelegate:)]) {
-      [pluginMap setCommandDelegate:cdvViewController.commandDelegate];
-    }
-    [cdvViewController.pluginObjects setObject:pluginMap forKey:mapId];
-    [cdvViewController.pluginsMap setValue:mapId forKey:mapId];
-    [pluginMap pluginInitialize];
-
-    [self.viewPlugins setObject:pluginMap forKey:mapId];
-
-    CGRect rect = CGRectZero;
-    // Sets the map div id.
-    if ([command.arguments count] == 3) {
-      pluginMap.mapCtrl.divId = [command.arguments objectAtIndex:2];
-      if (pluginMap.mapCtrl.divId != nil) {
-        NSDictionary *domInfo = [self.pluginLayer.pluginScrollView.HTMLNodes objectForKey:pluginMap.mapCtrl.divId];
-        if (domInfo != nil) {
-          rect = CGRectFromString([domInfo objectForKey:@"size"]);
+        // Hack:
+        // In order to load the plugin instance of the same class but different names,
+        // register the map plugin instance into the pluginObjects directly.
+        if ([pluginMap respondsToSelector:@selector(setViewController:)]) {
+            [pluginMap setViewController:cdvViewController];
         }
-      }
-    }
-
-
-    // Generate an instance of GMSMapView;
-    GMSCameraPosition *camera = nil;
-    int bearing = 0;
-    double angle = 0, zoom = 0;
-    NSDictionary *latLng = nil;
-    double latitude = 0;
-    double longitude = 0;
-    GMSCoordinateBounds *cameraBounds = nil;
-    NSDictionary *cameraOptions = [initOptions valueForKey:@"camera"];
-    if (cameraOptions) {
-
-      if ([cameraOptions valueForKey:@"bearing"] && [cameraOptions valueForKey:@"bearing"] != [NSNull null]) {
-        bearing = (int)[[cameraOptions valueForKey:@"bearing"] integerValue];
-      } else {
-        bearing = 0;
-      }
-
-      if ([cameraOptions valueForKey:@"tilt"] && [cameraOptions valueForKey:@"tilt"] != [NSNull null]) {
-        angle = [[cameraOptions valueForKey:@"tilt"] doubleValue];
-      } else {
-        angle = 0;
-      }
-
-      if ([cameraOptions valueForKey:@"zoom"] && [cameraOptions valueForKey:@"zoom"] != [NSNull null]) {
-        zoom = [[cameraOptions valueForKey:@"zoom"] doubleValue];
-      } else {
-        zoom = 0;
-      }
-      if ([cameraOptions objectForKey:@"target"] && [cameraOptions valueForKey:@"target"] != [NSNull null]) {
-        NSString *targetClsName = [[cameraOptions objectForKey:@"target"] className];
-        if ([targetClsName isEqualToString:@"__NSCFArray"] || [targetClsName isEqualToString:@"__NSArrayM"] ) {
-          //--------------------------------------------
-          //  cameraPosition.target = [
-          //    new plugin.google.maps.LatLng(),
-          //    ...
-          //    new plugin.google.maps.LatLng()
-          //  ]
-          //---------------------------------------------
-          int i = 0;
-          NSArray *latLngList = [cameraOptions objectForKey:@"target"];
-          GMSMutablePath *path = [GMSMutablePath path];
-          for (i = 0; i < [latLngList count]; i++) {
-            latLng = [latLngList objectAtIndex:i];
-            latitude = [[latLng valueForKey:@"lat"] doubleValue];
-            longitude = [[latLng valueForKey:@"lng"] doubleValue];
-            [path addLatitude:latitude longitude:longitude];
-          }
-
-          cameraBounds = [[GMSCoordinateBounds alloc] initWithPath:path];
-          //CLLocationCoordinate2D center = cameraBounds.center;
-
-          latitude = cameraBounds.center.latitude;
-          longitude = cameraBounds.center.longitude;
-        } else {
-          //------------------------------------------------------------------
-          //  cameraPosition.target = new plugin.google.maps.LatLng();
-          //------------------------------------------------------------------
-
-          latLng = [cameraOptions objectForKey:@"target"];
-          latitude = [[latLng valueForKey:@"lat"] floatValue];
-          longitude = [[latLng valueForKey:@"lng"] floatValue];
-
+        
+        if ([pluginMap respondsToSelector:@selector(setCommandDelegate:)]) {
+            [pluginMap setCommandDelegate:cdvViewController.commandDelegate];
         }
-      }
-      //[pluginMap.mapCtrl.view setHidden:YES];
-    }
-    camera = [GMSCameraPosition cameraWithLatitude:latitude
-                                         longitude:longitude
-                                              zoom: zoom
-                                           bearing: bearing
-                                      viewingAngle: angle];
+        
+        [cdvViewController.pluginObjects setObject:pluginMap forKey:mapId];
+        [cdvViewController.pluginsMap setValue:mapId forKey:mapId];
+        [pluginMap pluginInitialize];
+        
+        [self.viewPlugins setObject:pluginMap forKey:mapId];
 
-    viewCtrl.map = [GMSMapView mapWithFrame:rect camera:camera];
-    viewCtrl.view = viewCtrl.map;
+        CGRect rect = CGRectZero;
+        
+        // Sets the map div id.
+        if ([command.arguments count] == 3) {
+            pluginMap.mapCtrl.divId = [command.arguments objectAtIndex:2];
+            if (pluginMap.mapCtrl.divId != nil) {
+                NSDictionary *domInfo = [self.pluginLayer.pluginScrollView.HTMLNodes objectForKey:pluginMap.mapCtrl.divId];
+                if (domInfo != nil) rect = CGRectFromString([domInfo objectForKey:@"size"]);
+            }
+        }
 
-    //mapType
-    NSString *typeStr = [initOptions valueForKey:@"mapType"];
-    if (typeStr) {
+        // Generate an instance of GMSMapView;
+        GMSCameraPosition *camera = nil;
+        int bearing = 0;
+        double angle = 0, zoom = 0;
+        NSDictionary *latLng = nil;
+        double latitude = 0;
+        double longitude = 0;
+        GMSCoordinateBounds *cameraBounds = nil;
+        NSDictionary *cameraOptions = [initOptions valueForKey:@"camera"];
+        
+        if (cameraOptions) {
+            if ([cameraOptions valueForKey:@"bearing"] && [cameraOptions valueForKey:@"bearing"] != [NSNull null]) {
+                bearing = (int)[[cameraOptions valueForKey:@"bearing"] integerValue];
+            } else {
+                bearing = 0;
+            }
 
-      NSDictionary *mapTypes = [NSDictionary dictionaryWithObjectsAndKeys:
-                                ^() {return kGMSTypeHybrid; }, @"MAP_TYPE_HYBRID",
-                                ^() {return kGMSTypeSatellite; }, @"MAP_TYPE_SATELLITE",
-                                ^() {return kGMSTypeTerrain; }, @"MAP_TYPE_TERRAIN",
-                                ^() {return kGMSTypeNormal; }, @"MAP_TYPE_NORMAL",
-                                ^() {return kGMSTypeNone; }, @"MAP_TYPE_NONE",
-                                nil];
+            if ([cameraOptions valueForKey:@"tilt"] && [cameraOptions valueForKey:@"tilt"] != [NSNull null]) {
+                angle = [[cameraOptions valueForKey:@"tilt"] doubleValue];
+            } else {
+                angle = 0;
+            }
+    
+            if ([cameraOptions valueForKey:@"zoom"] && [cameraOptions valueForKey:@"zoom"] != [NSNull null]) {
+                zoom = [[cameraOptions valueForKey:@"zoom"] doubleValue];
+            } else {
+                zoom = 0;
+            }
+            
+            if ([cameraOptions objectForKey:@"target"] && [cameraOptions valueForKey:@"target"] != [NSNull null]) {
+                NSString *targetClsName = [[cameraOptions objectForKey:@"target"] className];
+                
+                /**
+                 * cameraPosition.target = [
+                 *    new plugin.google.maps.LatLng(),
+                 *    ...
+                 *    new plugin.google.maps.LatLng()
+                 *  ]
+                 */
+                if ([targetClsName isEqualToString:@"__NSCFArray"] || [targetClsName isEqualToString:@"__NSArrayM"] ) {
+                    int i = 0;
+                    NSArray *latLngList = [cameraOptions objectForKey:@"target"];
+                    GMSMutablePath *path = [GMSMutablePath path];
+                    
+                    for (i = 0; i < [latLngList count]; i++) {
+                        latLng = [latLngList objectAtIndex:i];
+                        latitude = [[latLng valueForKey:@"lat"] doubleValue];
+                        longitude = [[latLng valueForKey:@"lng"] doubleValue];
+                        [path addLatitude:latitude longitude:longitude];
+                    }
 
-      typedef GMSMapViewType (^CaseBlock)();
-      GMSMapViewType mapType;
-      CaseBlock caseBlock = mapTypes[typeStr];
-      if (caseBlock) {
-        // Change the map type
-        mapType = caseBlock();
+                    cameraBounds = [[GMSCoordinateBounds alloc] initWithPath:path];
+                    //CLLocationCoordinate2D center = cameraBounds.center;
 
-        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-          ((GMSMapView *)(viewCtrl.view)).mapType = mapType;
-        }];
-      }
-    }
-    viewCtrl.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+                    latitude = cameraBounds.center.latitude;
+                    longitude = cameraBounds.center.longitude;
+                    
+                    /**
+                     * cameraPosition.target = new plugin.google.maps.LatLng();
+                     */
+                } else {
+                    latLng = [cameraOptions objectForKey:@"target"];
+                    latitude = [[latLng valueForKey:@"lat"] floatValue];
+                    longitude = [[latLng valueForKey:@"lng"] floatValue];
+                }
+            }
+            //[pluginMap.mapCtrl.view setHidden:YES];
+        }
+        
+        camera = [GMSCameraPosition cameraWithLatitude:latitude
+                                             longitude:longitude
+                                                  zoom:zoom
+                                               bearing:bearing
+                                          viewingAngle:angle];
+      
+        viewCtrl.map = [GMSMapView mapWithFrame:rect camera:camera];
+        viewCtrl.view = viewCtrl.map;
+
+        //mapType
+        NSString *typeStr = [initOptions valueForKey:@"mapType"];
+        
+        if (typeStr) {
+            NSDictionary *mapTypes = [NSDictionary dictionaryWithObjectsAndKeys:
+                                      ^() {return kGMSTypeHybrid; }, @"MAP_TYPE_HYBRID",
+                                      ^() {return kGMSTypeSatellite; }, @"MAP_TYPE_SATELLITE",
+                                      ^() {return kGMSTypeTerrain; }, @"MAP_TYPE_TERRAIN",
+                                      ^() {return kGMSTypeNormal; }, @"MAP_TYPE_NORMAL",
+                                      ^() {return kGMSTypeNone; }, @"MAP_TYPE_NONE",
+                                      nil];
+
+            typedef GMSMapViewType (^CaseBlock)();
+            GMSMapViewType mapType;
+            CaseBlock caseBlock = mapTypes[typeStr];
+            
+            if (caseBlock) {
+                // Change the map type
+                mapType = caseBlock();
+
+                [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                    ((GMSMapView *)(viewCtrl.view)).mapType = mapType;
+                }];
+            }
+        }
+        
+        viewCtrl.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 
 
-    //indoor display
-    ((GMSMapView *)(viewCtrl.view)).delegate = viewCtrl;
-    ((GMSMapView *)(viewCtrl.view)).indoorDisplay.delegate = viewCtrl;
-    [self.pluginLayer addPluginOverlay:viewCtrl];
+        //indoor display
+        ((GMSMapView *)(viewCtrl.view)).delegate = viewCtrl;
+        ((GMSMapView *)(viewCtrl.view)).indoorDisplay.delegate = viewCtrl;
+        [self.pluginLayer addPluginOverlay:viewCtrl];
 
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-      [pluginMap getMap:command];
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            [pluginMap getMap:command];
+        });
     });
-
-  });
 }
 
 /**
