@@ -51,14 +51,20 @@ For browser platform,
   ```
 
 ### iOS
-This plugin uses Cocoapods since Version 2.8.0 to add GoogleMaps as a dependency. Before it was integrated by a [repository clone](https://github.com/mapsplugin/cordova-plugin-googlemaps-sdk) and was at least updated to version 3.9.0.
-Which version of GoogleMaps is used depends on the iOS deployment target you set in your config.xml with `<preference name="deployment-target" value="..." />`.
+This plugin uses Cocoapods since Version 2.8.0 to add the Google Maps SDK as a dependency. Before it was integrated by a [repository clone](https://github.com/mapsplugin/cordova-plugin-googlemaps-sdk) and was at least set to version 3.9.0.
+Which version of Google Maps SDK is used depends on the iOS deployment target you set in your config.xml with `<preference name="deployment-target" value="..." />`.
 
-The deployment-target 13.4 would use GoogleMaps 7.4.0.
+The following Google Maps SDK version would be used, if you set one of the following `deployment-target`:
 
-Since GoogleMaps 7.3.0 it's possible to run the plugin on a simulator on a Mac with a M CPU (Apple Silicon).
+| `deployment-target` | Google Maps SDK version      |
+| :------------------ | :--------------------------- |
+| 13.4                | 7.4.0                        |
+| 14                  | 8.4.0                        |
+| 15                  | 9.3.0 (As of March 22, 2025) |
 
-You can see all versions here:
+Since Google Maps SDK version 7.3.0 it's possible to run the plugin on a simulator on a Mac with a M CPU (Apple Silicon).
+
+You can see a changelog of all Google Maps SDK versions here:
 
 https://developers.google.com/maps/documentation/ios-sdk/release-notes
 
