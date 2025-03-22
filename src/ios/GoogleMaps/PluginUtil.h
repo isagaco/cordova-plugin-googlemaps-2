@@ -9,6 +9,7 @@
 #ifndef MIN
 #import <NSObjCRuntime.h>
 #endif
+
 #import <Foundation/Foundation.h>
 #import <Cordova/CDV.h>
 #import "MainViewController.h"
@@ -19,6 +20,7 @@
 #import <math.h>
 #import "IPluginProtocol.h"
 #import "PluginViewController.h"
+#import "PluginCAAnimationDelegate.h"
 #import <Cordova/CDVCommandDelegate.h>
 
 typedef void (^MYCompletionHandler)(NSError *error);
@@ -46,15 +48,6 @@ typedef void (^MYCompletionHandler)(NSError *error);
 @interface UIImage (GoogleMapsPlugin)
 - (UIImage*)imageByApplyingAlpha:(CGFloat) alpha;
 - (UIImage *)resize:(CGFloat)width height:(CGFloat)height;
-@end
-
-//
-// animationDidStop for group animation
-// http://stackoverflow.com/a/28051909/697856
-//
-typedef void (^TIFAnimationGroupCompletionBlock)(void);
-@interface CAAnimationGroup (Blocks)
-- (void)setCompletionBlock:(TIFAnimationGroupCompletionBlock)handler;
 @end
 
 

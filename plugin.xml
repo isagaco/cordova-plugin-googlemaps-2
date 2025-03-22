@@ -360,6 +360,8 @@
 
     <header-file src="src/ios/GoogleMaps/PluginObjects.h"/>
     <source-file src="src/ios/GoogleMaps/PluginObjects.m"/>
+    <header-file src="src/ios/GoogleMaps/PluginCAAnimationDelegate.h"/>
+    <source-file src="src/ios/GoogleMaps/PluginCAAnimationDelegate.m"/>
     <header-file src="src/ios/GoogleMaps/PluginCircle.h"/>
     <source-file src="src/ios/GoogleMaps/PluginCircle.m"/>
     <header-file src="src/ios/GoogleMaps/PluginGeocoder.h"/>

@@ -754,7 +754,7 @@
   CAAnimationGroup *group = [[CAAnimationGroup alloc] init];
   group.animations = @[longitudeAnim, latitudeAnim];
   group.duration = duration;
-  [group setCompletionBlock: callbackBlock];
+  group.delegate = [[PluginCAAnimationDelegate alloc] initWithCallbackBlock:callbackBlock];
 
   [marker.layer addAnimation:group forKey:@"dropMarkerAnim"];
 
@@ -796,7 +796,7 @@
   CAAnimationGroup *group = [[CAAnimationGroup alloc] init];
   group.animations = @[longitudeAnim, latitudeAnim];
   group.duration = duration;
-  [group setCompletionBlock: callbackBlock];
+  group.delegate = [[PluginCAAnimationDelegate alloc] initWithCallbackBlock:callbackBlock];
 
   [marker.layer addAnimation:group forKey:@"bounceMarkerAnim"];
 }

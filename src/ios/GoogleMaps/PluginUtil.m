@@ -104,31 +104,6 @@
   return self;
 }
 
-
-@end
-
-
-
-static char CAAnimationGroupBlockKey;
-@implementation CAAnimationGroup (Blocks)
-
-- (void)setCompletionBlock:(TIFAnimationGroupCompletionBlock)handler {
-    objc_setAssociatedObject(self, &CAAnimationGroupBlockKey, handler, OBJC_ASSOCIATION_COPY_NONATOMIC);
-
-    self.delegate = self;
-}
-
-- (void)animationDidStop:(CAAnimation *)animation finished:(BOOL)finished
-{
-    if (finished)
-    {
-        TIFAnimationGroupCompletionBlock handler = (TIFAnimationGroupCompletionBlock)objc_getAssociatedObject(self, &CAAnimationGroupBlockKey);
-        if (handler) {
-            handler();
-        }
-    }
-}
-
 @end
 
 @implementation PluginUtil
