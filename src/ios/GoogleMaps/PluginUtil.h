@@ -39,7 +39,6 @@ typedef void (^MYCompletionHandler)(NSError *error);
 @end
 
 @interface NSString (GoogleMapsPlugin)
-- (NSString *)urlencode;
 - (NSString*)regReplace:(NSString*)pattern replaceTxt:(NSString*)replaceTxt options:(NSRegularExpressionOptions)options;
 @end
 
