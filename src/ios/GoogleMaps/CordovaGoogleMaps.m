@@ -348,11 +348,20 @@
                                                bearing:bearing
                                           viewingAngle:angle];
         
-        GMSMapViewOptions *gmsMapViewOptions = [GMSMapViewOptions new];
-        gmsMapViewOptions.frame = rect;
-        gmsMapViewOptions.camera = camera;
+        // Google Maps SDK 8.3.0 uses GMSMapView.initWithOptions with GMSMapViewOptions
+        // If the deployment target is set to iOS 14.0 or newer, this version will be used minimum
+        #if __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_14_0
+            GMSMapViewOptions *gmsMapViewOptions = [GMSMapViewOptions new];
+            gmsMapViewOptions.frame = rect;
+            gmsMapViewOptions.camera = camera;
+            viewCtrl.map = [[GMSMapView alloc] initWithOptions:gmsMapViewOptions];
         
-        viewCtrl.map = [[GMSMapView alloc] initWithOptions:gmsMapViewOptions];
+        #else
+            // Before Google Maps SDK 8.3.0 GMSMapView.mapWithFrame has to be used
+            // If the deployment target is older then iOS 14.0 and older Google Maps SDK will be used
+            viewCtrl.map = [GMSMapView mapWithFrame:rect camera:camera];
+        #endif
+        
         viewCtrl.view = viewCtrl.map;
 
         //mapType

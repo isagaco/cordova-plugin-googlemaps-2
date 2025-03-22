@@ -34,7 +34,8 @@
   - PluginLocationService.m: Support for iOS 14 
     - On iOS 14 [CLLocationManager authorizationStatus] is deprecated and instead [CLLocationManager new].authorizationStatus should be called
   - Remove unused methods from PluginDirectionsService.h. Seems to be a leftover from copy & paste of PluginElevationService.h
-  - Use GMSMapViewOptions for init GMSMapView: [GMSMapView mapWithFrame] is deprecated. initWithOptions should be used.
+  - Use GMSMapViewOptions for init GMSMapView since iOS 14 and Google Maps SDK 8.3.0
+    - [GMSMapView mapWithFrame] is deprecated, use only on iOS 13 and Google Maps SDK older then 8.3.0
   - Fix warnings "A block declaration without a prototype is deprecated"
     - void had to be added to all these statements (proposed fix by XCode)
   - Remove unused method PluginUtil.urlencode
