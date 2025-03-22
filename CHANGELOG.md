@@ -26,9 +26,21 @@
 - Add GoogleMaps dependency with Cocoapods. Which GoogleMaps version is used, depends on the `deployment-target` you define in your `config.xml`. If you set your `deployment-target` to `13.4`, GoogleMaps 7.4.0 will be used and you can run GoogleMaps on a simulator on a Mac with a M CPU. See [README](README.md#ios) for more details.
 - Fix misplaced or white splash screen
   - The splash screen on iOS was misplaced or was not appearing. To fix this, the views will not be removed anymore from the view hierarchy and the plugin layer will be send only to the front, when the splash screen is dismissed.
-- Remove reference of CDVCommandDelegateImpl
-  - Since cordova-ios 7.x. CDVCommandDelegateImpl is private and no longer public
-- Geocoder.geocode: Removed from result `extra.address`, because `CLPlacemark.addressDictionary` is deprecated, which was used here.
+- Fix all warnings when using `cordova-ios` 7
+  - Remove reference of `CDVCommandDelegateImpl`
+    - Since `cordova-ios` 7.x. `CDVCommandDelegateImpl` is private and no longer public
+  - Remove deprecated `extra.address` from `Geocoder.geocode` result
+    - `CLPlacemark.addressDictionary` is deprecated and was used for this field
+  - PluginLocationService.m: Support for iOS 14 
+    - On iOS 14 [CLLocationManager authorizationStatus] is deprecated and instead [CLLocationManager new].authorizationStatus should be called
+  - Remove unused methods from PluginDirectionsService.h. Seems to be a leftover from copy & paste of PluginElevationService.h
+  - Use GMSMapViewOptions for init GMSMapView: [GMSMapView mapWithFrame] is deprecated. initWithOptions should be used.
+  - Fix warnings "A block declaration without a prototype is deprecated"
+    - void had to be added to all these statements (proposed fix by XCode)
+  - Remove unused method PluginUtil.urlencode
+  - Add PluginCAAnimationDelegate for markers: The animationDelegate for markers was not set to a real delegate and was giving a warning. The CAAnimationGroup was overwritten and set as delegate, but was not implementing the CAAnimationDelegate. Now a  custom delegate is created which calls the completion block.
+  - Define nullability for property and parameters in PluginStreetViewPanoramaController.h
+    - XCode has issued a warning, that the nullability was not defined for the panoramaView property and parameters
 
 ## Common
 - Add: (Android/iOS/Browser) `mapOptions.preferences.restriction` which is able to set the camera bounds.
