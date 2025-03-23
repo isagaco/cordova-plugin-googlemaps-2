@@ -10,120 +10,110 @@
 
 @implementation CordovaGoogleMaps
 
-- (void)pluginInitialize
-{
-  [[NSNotificationCenter defaultCenter] addObserver:self
-                                           selector:@selector(pageDidLoad)
-                                               name:CDVPageDidLoadNotification
-                                             object:nil];
-  
-  dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-    self.executeQueue =  [NSOperationQueue new];
-    self.executeQueue.maxConcurrentOperationCount = 10;
-  });
-
-  [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-    //-------------------------------
-    // Check the Google Maps API key
-    //-------------------------------
-    NSString *APIKey = [((CDVViewController *)self.viewController).settings objectForKey:@"google_maps_ios_api_key"];
-
-    if (APIKey == nil) {
-      NSString *errorTitle = [PluginUtil PGM_LOCALIZATION:@"APIKEY_IS_UNDEFINED_TITLE"];
-      NSString *errorMsg = [PluginUtil PGM_LOCALIZATION:@"APIKEY_IS_UNDEFINED_MESSAGE"];
-
-      UIAlertController* alert = [UIAlertController alertControllerWithTitle:errorTitle
-                                                                     message:errorMsg
-                                                              preferredStyle:UIAlertControllerStyleAlert];
-
-      NSString *closeBtnLabel = [PluginUtil PGM_LOCALIZATION:@"CLOSE_BUTTON"];
-      UIAlertAction* ok = [UIAlertAction actionWithTitle:closeBtnLabel
-                                                   style:UIAlertActionStyleDefault
-                                                 handler:^(UIAlertAction* action)
-                           {
-                             [alert dismissViewControllerAnimated:YES completion:nil];
-                           }];
-
-      [alert addAction:ok];
-
-      [self.viewController presentViewController:alert
-                                        animated:YES
-                                      completion:nil];
-      return;
-    }
-
+- (void)pluginInitialize {
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(didRotate:)
-                                                 name:UIDeviceOrientationDidChangeNotification
+                                             selector:@selector(pageDidLoad)
+                                                 name:CDVPageDidLoadNotification
                                                object:nil];
-
-    [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
-
-    [GMSServices provideAPIKey:APIKey];
     
-    NSUserDefaults *myDefaults = [[NSUserDefaults alloc] initWithSuiteName:@"cordova.plugin.googlemaps"];
-    [myDefaults setObject:APIKey forKey:@"GOOGLE_MAPS_API_KEY"];
-    [myDefaults synchronize];
-  }];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        self.executeQueue =  [NSOperationQueue new];
+        self.executeQueue.maxConcurrentOperationCount = 10;
+    });
 
-  //-------------------------------
-  // Plugin initialization
-  //-------------------------------
-  self.viewPlugins = [[NSMutableDictionary alloc] init];
+    // Check and set the Google Maps API key
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        NSString *APIKey = [((CDVViewController *)self.viewController).settings objectForKey:@"google_maps_ios_api_key"];
+        
+        // Show error if the API key is not set
+        if (APIKey == nil) {
+            UIAlertController* alert = [UIAlertController alertControllerWithTitle:[PluginUtil PGM_LOCALIZATION:@"APIKEY_IS_UNDEFINED_TITLE"]
+                                                                           message:[PluginUtil PGM_LOCALIZATION:@"APIKEY_IS_UNDEFINED_MESSAGE"]
+                                                                    preferredStyle:UIAlertControllerStyleAlert];
+
+            [alert addAction:[UIAlertAction actionWithTitle:[PluginUtil PGM_LOCALIZATION:@"CLOSE_BUTTON"]
+                                                      style:UIAlertActionStyleDefault
+                                                    handler:^(UIAlertAction* action) {
+                                                         [alert dismissViewControllerAnimated:YES completion:nil];
+                                                     }]];
+
+            [self.viewController presentViewController:alert
+                                              animated:YES
+                                            completion:nil];
+            return;
+        }
+
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(didRotate:)
+                                                     name:UIDeviceOrientationDidChangeNotification
+                                                   object:nil];
+
+        [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
+
+        // Set API key in Google Maps SDK
+        [GMSServices provideAPIKey:APIKey];
+        
+        // Store api key in userDefaults
+        NSUserDefaults *myDefaults = [[NSUserDefaults alloc] initWithSuiteName:@"cordova.plugin.googlemaps"];
+        [myDefaults setObject:APIKey forKey:@"GOOGLE_MAPS_API_KEY"];
+        [myDefaults synchronize];
+    }];
+
+    // Plugin initialization
+    self.viewPlugins = [[NSMutableDictionary alloc] init];
   
-  // Initialize the plugin layer
-  // This removes the webView from the view hierarchy and adds it to the plugin layer
-  self.pluginLayer = [[MyPluginLayer alloc] initWithWebView:self.webView];
-  self.pluginLayer.backgroundColor = [UIColor clearColor]; // Set to clear to avoid white screen
-  self.pluginLayer.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-  self.pluginLayer.userInteractionEnabled = NO; // Ensure the plugin layer does not intercept touch events
+    // Initialize the plugin layer
+    // This removes the webView from the view hierarchy and adds it to the plugin layer
+    self.pluginLayer = [[MyPluginLayer alloc] initWithWebView:self.webView];
+    self.pluginLayer.backgroundColor = [UIColor clearColor]; // Set to clear to avoid white screen
+    self.pluginLayer.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    self.pluginLayer.userInteractionEnabled = NO; // Ensure the plugin layer does not intercept touch events
   
-  // Add the plugin layer to the back, so it is not disturbing the splash screen
-  // When the plugin layer is in the back, the plugin layer and the containing webView is not clickable
-  [self.viewController.view addSubview:self.pluginLayer];
-  [self.viewController.view sendSubviewToBack:self.pluginLayer];
+    // Add the plugin layer to the back, so it is not disturbing the splash screen
+    // When the plugin layer is in the back, the plugin layer and the containing webView is not clickable
+    [self.viewController.view addSubview:self.pluginLayer];
+    [self.viewController.view sendSubviewToBack:self.pluginLayer];
   
-  // Move the plugin layer, after the splash screen is dismissed, to the front
-  // so the plugin layer and the webView is clickable
-  // Read the SplashScreenDelay value from config.xml
-  NSString *splashScreenDelayString = [((CDVViewController *)self.viewController).settings objectForKey:@"splashscreendelay"];
-  // If no SplashScreenDelay ist set, set no delay. Cordova states, that the default value for
-  // iOS is 3000ms, but it seems, when testing it, that the splash screen is hidden, right after the initialization is complete
-  double splashScreenDelay = splashScreenDelayString ? [splashScreenDelayString doubleValue] : 0;
-  // Add some extra delay, to let the splash screen fade out, otherwise it will be hidden, without the animation
-  // This can have the side effect, that the app is not clickable for a short period of time, after the splash screen is dismissed
-  splashScreenDelay += 2000;
+    // Move the plugin layer, after the splash screen is dismissed, to the front
+    // so the plugin layer and the webView is clickable
+    // Read the SplashScreenDelay value from config.xml
+    NSString *splashScreenDelayString = [((CDVViewController *)self.viewController).settings objectForKey:@"splashscreendelay"];
+    
+    // If no SplashScreenDelay ist set, set no delay. Cordova states, that the default value for
+    // iOS is 3000ms, but it seems, when testing it, that the splash screen is hidden, right after the initialization is complete
+    double splashScreenDelay = splashScreenDelayString ? [splashScreenDelayString doubleValue] : 0;
+    
+    // Add some extra delay, to let the splash screen fade out, otherwise it will be hidden, without the animation
+    // This can have the side effect, that the app is not clickable for a short period of time, after the splash screen is dismissed
+    splashScreenDelay += 2000;
   
-  // Move the plugin layer to the front
-  dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(splashScreenDelay * NSEC_PER_MSEC)), dispatch_get_main_queue(), ^{
-    [self.viewController.view bringSubviewToFront:self.pluginLayer];
-  });
+    // Move the plugin layer to the front
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(splashScreenDelay * NSEC_PER_MSEC)), dispatch_get_main_queue(), ^{
+        [self.viewController.view bringSubviewToFront:self.pluginLayer];
+    });
 }
-- (void) didRotate:(id)sender
-{
-
-  NSArray *keys = [self.viewPlugins allKeys];
-  NSString *key;
-  CDVPlugin<IPluginProtocol, IPluginView> *viewPlugin;
-  PluginMap *pluginMap;
-  for (int i = 0; i < keys.count; i++) {
-    key = [keys objectAtIndex:i];
-    if ([self.viewPlugins objectForKey:key]) {
-      viewPlugin = [self.viewPlugins objectForKey:key];
-      if ([viewPlugin isKindOfClass:[PluginMap class]]) {
-        pluginMap = (PluginMap *)viewPlugin;
-        // Trigger the CAMERA_MOVE_END mandatory
-        [pluginMap.mapCtrl mapView:pluginMap.mapCtrl.map idleAtCameraPosition:pluginMap.mapCtrl.map.camera];
-      }
+- (void) didRotate:(id)sender {
+    NSArray *keys = [self.viewPlugins allKeys];
+    
+    for (int i = 0; i < keys.count; i++) {
+        NSString *key = [keys objectAtIndex:i];
+        
+        if ([self.viewPlugins objectForKey:key]) {
+            CDVPlugin<IPluginProtocol, IPluginView> *viewPlugin = [self.viewPlugins objectForKey:key];
+            
+            if ([viewPlugin isKindOfClass:[PluginMap class]]) {
+                PluginMap *pluginMap = (PluginMap *)viewPlugin;
+                // Trigger the CAMERA_MOVE_END mandatory
+                [pluginMap.mapCtrl mapView:pluginMap.mapCtrl.map idleAtCameraPosition:pluginMap.mapCtrl.map.camera];
+            }
+        }
     }
-  }
-
 }
 
 
 -(void)viewDidLayoutSubviews {
-  [self.pluginLayer.pluginScrollView setContentSize: self.webView.scrollView.contentSize];
-  [self.pluginLayer.pluginScrollView flashScrollIndicators];
+    [self.pluginLayer.pluginScrollView setContentSize: self.webView.scrollView.contentSize];
+    [self.pluginLayer.pluginScrollView flashScrollIndicators];
 }
 
 - (void)onReset
