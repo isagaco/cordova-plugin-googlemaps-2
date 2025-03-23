@@ -52,21 +52,11 @@ For browser platform,
 
 ### iOS
 This plugin uses Cocoapods since Version 2.8.0 to add the Google Maps SDK as a dependency. Before it was integrated by a [repository clone](https://github.com/mapsplugin/cordova-plugin-googlemaps-sdk) and was at least set to version 3.9.0.
-Which version of Google Maps SDK is used depends on the iOS deployment target you set in your config.xml with `<preference name="deployment-target" value="..." />`.
+This plugin requires to set iOS 15.5 as the minimum deployment target. This is no problem, because all phones which support iOS 13/14 support iOS 15 also. The latest phones which support maximum iOS 15 are the iPhone 6s & 6s Plus, first-generation iPhone SE, iPhone 7 & 7 Plus, and iPod Touch and these devices are already very old (from 2015/2016).
 
-The following Google Maps SDK version would be used, if you set one of the following `deployment-target`:
+The plugin uses Google Maps SDK version 9.3.0, which is the latest version as of March 2025.
 
-| `deployment-target` | Google Maps SDK version      |
-| :------------------ | :--------------------------- |
-| 13.4                | 7.4.0                        |
-| 14                  | 8.4.0                        |
-| 15                  | 9.3.0 (As of March 22, 2025) |
-
-Since Google Maps SDK version 7.3.0 it's possible to run the plugin on a simulator on a Mac with a M CPU (Apple Silicon).
-
-You can see a changelog of all Google Maps SDK versions here:
-
-https://developers.google.com/maps/documentation/ios-sdk/release-notes
+Since Google Maps SDK version 7.3.0 it's possible to run the plugin on a simulator on a Mac with a M CPU (Apple Silicon), but there are some problems with the Metal Renderer (see https://issuetracker.google.com/issues/338162114). As a workaround OpenGL will be used, but which is slower.  See [Problems with Google Maps SDK](#problems-with-google-maps-sdk) for more details. On a simulator with iOS 15, it can also crash with OpenGL, so it's recommended to test only from iOS 16 onwards in a simulator.
 
 If you upgrade from plugin version 2.7.1 to Version 2.8.0 you have to remove the old GoolgeMaps dependency:
 
@@ -87,6 +77,21 @@ cordova plugin remove cordova-plugin-googlemaps
 ```
 
 After that, you can add this plugin.
+
+You can see a changelog of all Google Maps SDK versions here:
+
+https://developers.google.com/maps/documentation/ios-sdk/release-notes
+
+#### Problems with Google Maps SDK
+
+##### EXC_BAD_ACCESS (KERN_INVALID_ADDRESS) gmscore::vector::TextureAtlasElement::height() const
+Since Google Maps SDK 7.4.0 an `EXC_BAD_ACCESS` can occur when using some time the map. This is a known bug and currently not fixed:
+https://issuetracker.google.com/issues/338162114
+This happens only on a simulator. The issue does say that the problem also occurs on a simulator, but after testing on a real device with iOS 18, this could not be confirmed. Otherwise this will happen on every iOS version on a simulator. As long the issue is not resolved, the OpenGL rednerer will be used for a smimulator instead of the Metal renderer.
+
+##### EXC_BAD_ACCESS in glvmRasterOpDepthStencilTest (gmscore::renderer::GLEntity::Draw)
+Happens only on a simulator with iOS 15 since Google Maps SDK 6.0.0 when using OpenGL:
+https://issuetracker.google.com/issues/224584852
 
 ## Install optional variables (config.xml)
 
