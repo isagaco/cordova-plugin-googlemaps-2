@@ -23,7 +23,8 @@
 - Resolve blank map when running compiled with latest cordova-android (which uses AGP 4.1.3)
 
 ## iOS
-- Add GoogleMaps dependency with Cocoapods. Which GoogleMaps version is used, depends on the `deployment-target` you define in your `config.xml`. If you set your `deployment-target` to `13.4`, GoogleMaps 7.4.0 will be used and you can run GoogleMaps on a simulator on a Mac with a M CPU. See [README](README.md#ios) for more details.
+- Add Google Maps SDK Version 9.3.0 with Cocoapods
+  - Google Maps can now be tested in the simulator
 - Fix misplaced or white splash screen
   - The splash screen on iOS was misplaced or was not appearing. To fix this, the views will not be removed anymore from the view hierarchy and the plugin layer will be send only to the front, when the splash screen is dismissed.
 - Fix all warnings when using `cordova-ios` 7
