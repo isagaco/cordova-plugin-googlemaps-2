@@ -1,4 +1,4 @@
-
+cordova.define("cordova-plugin-googlemaps-2.PluginMarkerCluster", function(require, exports, module) { 
 var utils = require('cordova/utils'),
   event = require('cordova-plugin-googlemaps-2.event'),
   PluginMarker = require('cordova-plugin-googlemaps-2.PluginMarker'),
@@ -104,12 +104,6 @@ PluginMarkerCluster.prototype._create = function(onSuccess, onError, args) {
            (posY & 1) << 1 |
            (posX & 1) << 0);
         }
-
-
-
-
-
-
         return params.positionList.map(function(position) {
           return getGeocell(position.lat, position.lng, params.resolution);
         });
@@ -243,7 +237,6 @@ PluginMarkerCluster.prototype.redrawClusters = function(onSuccess, onError, args
       // Get the marker properties
       var markerProperties = changeProperties[clusterId_markerId],
         properties, marker;
-
       if (clusterId_markerId.indexOf('-marker_') > -1) {
         //-------------------
         // regular marker
@@ -511,14 +504,17 @@ function ClusterIconClass(options) {
   self.set('labelMarker', labelMarker);
   self.set('opacity', 0);
 
-  iconMarker.bindTo('opacity', labelMarker);
   iconMarker.bindTo('visible', labelMarker);
   iconMarker.bindTo('position', labelMarker);
   iconMarker.bindTo('map', labelMarker);
-  self.bindTo('opacity', iconMarker);
   self.bindTo('visible', iconMarker);
   self.bindTo('map', iconMarker);
   self.bindTo('position', iconMarker);
+
+  // New opacity bindings: self is the source of truth for opacity
+  iconMarker.bindTo('opacity', self);
+  labelMarker.bindTo('opacity', self);
+
   self.set('labelMarkerAnchor', new google.maps.Point(canvas.width / 2, canvas.height / 2));
 
   self.addListener('icon_changed', function() {
@@ -617,7 +613,7 @@ ClusterIconClass.prototype.draw = function() {
       self.set('icon', icon, true);
       resolve(newIconInfo);
     };
-    img.onerror = function() {
+    img.onerror = function(err) {
       var newIconInfo = {
         width: img.width,
         height: img.height
@@ -681,12 +677,14 @@ ClusterIconClass.prototype.draw = function() {
         //ctx.fillText(selfId.split("-")[1], iconSize.width / 2, iconSize.height / 2);
 
       }
-
       self.get('labelMarker').set('icon', {
         'url': canvas.toDataURL(),
         'anchor': self.get('labelMarkerAnchor')
       });
+      // Reveal the icon after 10ms (block the white blink)
       setTimeout(function() {
+        var iMarker = self.get('iconMarker');
+
         self.set('opacity', 1);
       }, 10);
     });
@@ -715,3 +713,5 @@ ClusterIconClass.prototype.setMap = function(map) {
   var self = this;
   self.set('map', map);
 };
+
+});
