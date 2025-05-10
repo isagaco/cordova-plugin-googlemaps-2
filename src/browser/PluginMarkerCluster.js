@@ -683,8 +683,6 @@ ClusterIconClass.prototype.draw = function() {
       });
       // Reveal the icon after 10ms (block the white blink)
       setTimeout(function() {
-        var iMarker = self.get('iconMarker');
-
         self.set('opacity', 1);
       }, 10);
     });
