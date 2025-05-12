@@ -450,7 +450,7 @@ PluginMarkerCluster.prototype.onClusterEvent = function(evtName, marker) {
     plugin.google.maps[mapId]({
       'evtName': evtName,
       'callback': '_onClusterEvent',
-      'args': [clusterId, markerId, new LatLng(latLng.lat(), latLng.lng())]
+      'args': [clusterId, markerId, new LatLng(latLng.lat, latLng.lng)]
     });
   }
 };
