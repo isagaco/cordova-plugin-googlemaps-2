@@ -450,7 +450,7 @@ PluginMarkerCluster.prototype.onClusterEvent = function(evtName, marker) {
     plugin.google.maps[mapId]({
       'evtName': evtName,
       'callback': '_onClusterEvent',
-      'args': [clusterId, markerId, new LatLng(latLng.lat(), latLng.lng())]
+      'args': [clusterId, markerId, new LatLng(latLng.lat, latLng.lng)]
     });
   }
 };
@@ -512,13 +512,16 @@ function ClusterIconClass(options) {
   self.set('opacity', 0);
 
   iconMarker.bindTo('opacity', labelMarker);
-  iconMarker.bindTo('visible', labelMarker);
-  iconMarker.bindTo('position', labelMarker);
-  iconMarker.bindTo('map', labelMarker);
   self.bindTo('opacity', iconMarker);
-  self.bindTo('visible', iconMarker);
-  self.bindTo('map', iconMarker);
-  self.bindTo('position', iconMarker);
+
+  labelMarker.bindTo('visible', self);
+  iconMarker.bindTo('visible', self);
+
+  labelMarker.bindTo('position', self);
+  iconMarker.bindTo('position', self);
+
+  labelMarker.bindTo('map', self);
+  iconMarker.bindTo('map', self);
   self.set('labelMarkerAnchor', new google.maps.Point(canvas.width / 2, canvas.height / 2));
 
   self.addListener('icon_changed', function() {
@@ -687,7 +690,8 @@ ClusterIconClass.prototype.draw = function() {
         'anchor': self.get('labelMarkerAnchor')
       });
       setTimeout(function() {
-        self.set('opacity', 1);
+        const labelMarker = self.get('labelMarker');
+        labelMarker.set('opacity', 1);
       }, 10);
     });
 
