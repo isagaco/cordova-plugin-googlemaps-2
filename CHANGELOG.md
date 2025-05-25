@@ -2,6 +2,9 @@
 
 ## Version 2.8.1-dev
 
+### Browser
+- fix: browser cluster icon opacity: Eliminates the conflicting pull on iconMarker's opacity and establishes a clear path for opacity changes originating from self [PR #11](https://github.com/GitToTheHub/cordova-plugin-googlemaps-2/pull/11). Thanks to [leyenda](https://github.com/leyenda).
+
 ## Version 2.8.0 (24.03.2025)
 
 ### Android
