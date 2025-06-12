@@ -8,7 +8,7 @@
 #ifndef UIImageCache_h
 #define UIImageCache_h
 
-#import <Foundation/Foundation.h>
+@import UIKit;
 
 @interface UIImageCache : NSObject
 
