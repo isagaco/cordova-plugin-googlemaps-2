@@ -51,7 +51,7 @@ For browser platform,
   ```
 
 ### iOS
-This plugin uses Cocoapods since Version 2.8.0 to add the Google Maps SDK as a dependency and requires iOS 15.5 to be set as `deployment-target` in your `config.xml`. This is no problem, because all phones which support iOS 13/14 support also iOS 15. The latest phones which support iOS 15 as last OS, are the iPhone 6s & 6s Plus, first-generation iPhone SE, iPhone 7 & 7 Plus, and iPod Touch. These devices are from 2015 and 2016.
+This plugin uses Cocoapods since Version 2.8.0 to add the Google Maps SDK as a dependency and sets iOS 15.5 as `deployment-target` in your `config.xml`, but only, if you didn't specify it. Using iOS 15.5 as deployment target is no problem, because all phones which support iOS 13/14 support also iOS 15. The latest phones which support iOS 15 as last OS, are the iPhone 6s & 6s Plus, first-generation iPhone SE, iPhone 7 & 7 Plus, and iPod Touch. These devices are from 2015 and 2016.
 
 The plugin uses Google Maps SDK version 9.3.0, which is the latest version as of March 2025.
 

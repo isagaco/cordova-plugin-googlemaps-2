@@ -2,6 +2,9 @@
 
 ## Version 2.8.1-dev
 
+### iOS
+- Add `deployment-target` with `15.5` to `config.xml`, when user didn't set something. Google Maps SDK for iOS 9.3.0 needs minimum iOS 15 as deployment target.
+
 ### Browser
 - feat: option to add mapId when using browser maps: Since Google Maps pricing already includes the SKU: [Dynamic Maps (with or without a map ID using the Maps JavaScript API)](https://developers.google.com/maps/billing-and-pricing/sku-details#dynamic-maps-ess-sku), and with the latest JS SDK the plugin’s tilt option doesn’t work because [WebGL (Vector maps) requires a map ID](https://developers.google.com/maps/documentation/javascript/map-ids/mapid-over), users should have the option to include one. Thanks to [leyenda](https://github.com/leyenda).
 - fix: browser cluster icon opacity: Eliminates the conflicting pull on iconMarker's opacity and establishes a clear path for opacity changes originating from self [PR #11](https://github.com/GitToTheHub/cordova-plugin-googlemaps-2/pull/11). Thanks to [leyenda](https://github.com/leyenda).
