@@ -2,8 +2,12 @@
 
 ## Version 2.8.1-dev
 
+### Android
+- Don't set backround color on div change: It could happen, that an undefined background color was set, which lead to a black background. Now nothing will be set on the div
+
 ### iOS
 - Add `deployment-target` with `15.5` to `config.xml`, when user didn't set something. Google Maps SDK for iOS 9.3.0 needs minimum iOS 15 as deployment target.
+- Don't set backround color on div change: It could happen, that an undefined background color was set, which lead to a black background. Now nothing will be set on the div
 
 ### Browser
 - feat: option to add mapId when using browser maps: Since Google Maps pricing already includes the SKU: [Dynamic Maps (with or without a map ID using the Maps JavaScript API)](https://developers.google.com/maps/billing-and-pricing/sku-details#dynamic-maps-ess-sku), and with the latest JS SDK the plugin’s tilt option doesn’t work because [WebGL (Vector maps) requires a map ID](https://developers.google.com/maps/documentation/javascript/map-ids/mapid-over), users should have the option to include one. Thanks to [leyenda](https://github.com/leyenda).
