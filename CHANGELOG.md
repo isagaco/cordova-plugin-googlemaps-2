@@ -1,6 +1,6 @@
 # ChangeLog
 
-## Version 2.8.1-dev
+## Version 2.8.1 (05.07.2025)
 
 ### Android
 - Don't set backround color on div change: It could happen, that an undefined background color was set, which lead to a black background. Now nothing will be set on the div
