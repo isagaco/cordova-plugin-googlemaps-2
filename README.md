@@ -17,11 +17,26 @@ This plugin allows you to display a native Google Maps layer in your application
 ## Installation
 
 ### GitHub
+
+#### Latest version
+
+To install the latest master:
+
 ```bash
 cordova plugin add https://github.com/GitToTheHub/cordova-plugin-googlemaps-2
 ```
 
-Then set your Google Maps API keys into your `config.xml` (Android / iOS).
+#### Specific Version
+
+To install a specific version you can use git tags. Example for installing version `2.9.0`:
+
+```bash
+cordova plugin add https://github.com/GitToTheHub/cordova-plugin-googlemaps-2#v2.9.0
+```
+
+### Setup API-Keys
+
+Setup you Google Maps API keys for Android & iOS in your `config.xml` as follows:
 
   ```xml
   <widget ...>
@@ -30,79 +45,81 @@ Then set your Google Maps API keys into your `config.xml` (Android / iOS).
   </widget>
   ```
 
-For browser platform,
+For the browser platform you need to specify the API-Key in JavaScript before calling `plugin.google.maps.Map.getMap()`:
 
-  ```js
-  // If your app runs this program on browser,
-  // you need to set `API_KEY_FOR_BROWSER_RELEASE` and `API_KEY_FOR_BROWSER_DEBUG`
-  // before `plugin.google.maps.Map.getMap()`
-  //
-  //   API_KEY_FOR_BROWSER_RELEASE for `https:` protocol
-  //   API_KEY_FOR_BROWSER_DEBUG for `http:` protocol
-  //
-  plugin.google.maps.environment.setEnv({
-    'API_KEY_FOR_BROWSER_RELEASE': '(YOUR_API_KEY_IS_HERE)',
-    'API_KEY_FOR_BROWSER_DEBUG': ''  // optional
-  });
+```js
+plugin.google.maps.environment.setEnv({
+  // for `https:` protocol
+  'API_KEY_FOR_BROWSER_RELEASE': '(YOUR_API_KEY_IS_HERE)',
+  // for `http:` protocol
+  'API_KEY_FOR_BROWSER_DEBUG': ''  // optional
+});
 
-  // Create a Google Maps native view under the map_canvas div.
-  var map = plugin.google.maps.Map.getMap(div);
-
-  ```
+// Create a Google Maps native view under the map_canvas div.
+var map = plugin.google.maps.Map.getMap(div);
+```
 
 ### iOS
-This plugin uses Cocoapods since Version 2.8.0 to add the Google Maps SDK as a dependency and sets iOS 15.5 as `deployment-target` in your `config.xml`, but only, if you didn't specify it. Using iOS 15.5 as deployment target is no problem, because all phones which support iOS 13/14 support also iOS 15. The latest phones which support iOS 15 as last OS, are the iPhone 6s & 6s Plus, first-generation iPhone SE, iPhone 7 & 7 Plus, and iPod Touch. These devices are from 2015 and 2016.
+This plugin uses CocoaPods since Version 2.8.0 to add the Google Maps SDK as a dependency. Since Version `2.9.0` Google Maps SDK for iOS 10.0.0 is used, which was released on 19.05.2025 and requires a minimum `deployment-target` of iOS 16. To achieve this, the plugin sets the `deployment-target` to iOS 16.0 in your `config.xml`, but only, if you didn't specify it. iOS 16 is compatible with iPhones from iPhone 8 (from the year 2017) and newer, including iPhone SE (2nd and 3rd generation). Since Google Maps SDK version 7.3.0 it's possible to run the plugin on a simulator on a Mac with a M CPU (Apple Silicon) using the Metal renderer.
 
-The plugin uses Google Maps SDK version 9.3.0, which is the latest version as of March 2025.
-
-Since Google Maps SDK version 7.3.0 it's possible to run the plugin on a simulator on a Mac with a M CPU (Apple Silicon), but there are some problems with the Metal Renderer (see https://issuetracker.google.com/issues/338162114). As a workaround OpenGL will be used, but which is slower. On a simulator with iOS 15, it can also crash with OpenGL, so it's recommended to test only from iOS 16 onwards in a simulator. See [Problems with Google Maps SDK](#problems-with-google-maps-sdk) for more details.
-
-If you upgrade from plugin version 2.7.1 to Version 2.8.0 you have to remove the old GoolgeMaps dependency:
+To upgrade from plugin version 2.7.1 from the old reposiotry to Version 2.8.0 or newer of this respository you have to remove the old plugin and old iOS Google Map dependency:
 
 ```bash
+cordova plugin remove cordova-plugin-googlemaps
 cordova plugin remove com.googlemaps.ios
 ```
 
-Also you have to remove the old GoogleMaps dependency from your `package.json`:
+Also you have to remove the old GoogleMaps dependency from your `package.json` and `package-lock.json` manually:
 
 ```json
   "cordova-plugin-googlemaps-sdk": "github:mapsplugin/cordova-plugin-googlemaps-sdk",
 ```
 
-If you used the the old repository, you have to remove it also:
+Remove also the follwoing from the `package-lock.json`:
+
+```json
+"node_modules/cordova-plugin-googlemaps-sdk": {
+  "version": "3.9.0",
+  "resolved": "git+ssh://git@github.com/mapsplugin/cordova-plugin-googlemaps-sdk.git#f16676a612b1bf50fb482d2dd0ad9109daabc2b1",
+  "dev": true
+},
+```
+After that, you can add this plugin:
 
 ```bash
-cordova plugin remove cordova-plugin-googlemaps
+cordova plugin add https://github.com/GitToTheHub/cordova-plugin-googlemaps-2
 ```
 
-After that, you can add this plugin.
+If you get a CocoaPod error, that a compatible version for GoogleMaps couldn't be found:
 
-You can see a changelog of all Google Maps SDK versions here:
+```bash
+[!] CocoaPods could not find compatible versions for pod "GoogleMaps":
+  In Podfile:
+    GoogleMaps (~> 10.0.0)
+```
 
-https://developers.google.com/maps/documentation/ios-sdk/release-notes
+You can update the CocoaPod source repos with `pod repo update` executing it in `platforms/ios` of your Cordova project.
 
-#### Problems with Google Maps SDK
+Changelog of Google Maps SDK for iOS versions: https://developers.google.com/maps/documentation/ios-sdk/release-notes
+
+#### Problems with older Google Maps SDK for iOS versions
 
 ##### EXC_BAD_ACCESS (KERN_INVALID_ADDRESS) gmscore::vector::TextureAtlasElement::height() const
-Since Google Maps SDK 7.4.0 an `EXC_BAD_ACCESS` can occur when using the map. This is a known bug and currently not fixed: https://issuetracker.google.com/issues/338162114. This happens only on a simulator. The issue does say that the problem also occurs on a real device, but after testing on a real device with iOS 18, this could not be confirmed. Otherwise this will happen on every iOS version on a simulator. As long the issue is not resolved, OpenGL will be used for a simulator instead of Metal.
+Since Google Maps SDK 7.4.0 an `EXC_BAD_ACCESS` could occur on a simulator when using the map and the Metal renderer. This is still an open bug on Google's issue tracker: https://issuetracker.google.com/issues/338162114. When this plugin used Google Maps SDK for iOS version `9.3.0`, the error was reproduceable, but after upgrading to version `10.0.0` the error was not reproduceable on a iOS 18.5 simulator. So maybe this problem is solved.
 
 ##### EXC_BAD_ACCESS in glvmRasterOpDepthStencilTest (gmscore::renderer::GLEntity::Draw)
-Happens only on a simulator with iOS 15 since Google Maps SDK 6.0.0 when using OpenGL:
-https://issuetracker.google.com/issues/224584852
+Happend only on a simulator with iOS 15 since Google Maps SDK 6.0.0 when using OpenGL:
+https://issuetracker.google.com/issues/224584852. Since the minimum `deployment-target` was raised to 16.0 and Metal is used, this no issue anymore.
 
-## Install optional variables (config.xml)
+### Optional variables to be set in `config.xml`
 
-### Android
-- `GOOGLE_MAPS_PLAY_SERVICES_VERSION`
-  - Defaults to `19.0.0`
-- `GOOGLE_MAPS_PLAY_SERVICES_LOCATION_VERSION`
-  - Defaults to `21.3.0`
+#### Android
+- `GOOGLE_MAPS_PLAY_SERVICES_VERSION`: Defaults to `19.0.0`
+- `GOOGLE_MAPS_PLAY_SERVICES_LOCATION_VERSION`: Defaults to `21.3.0`
 
-### iOS
-- `LOCATION_WHEN_IN_USE_DESCRIPTION`
-  - This message is displayed when your application requests **LOCATION PERMISSION for only necessary times**.
-- `LOCATION_ALWAYS_USAGE_DESCRIPTION`
-  - This message is displayed when your application requests **LOCATION PERMISSION for always**.
+#### iOS
+- `LOCATION_WHEN_IN_USE_DESCRIPTION`: This message is displayed when your application requests location permission for only necessary times.
+- `LOCATION_ALWAYS_USAGE_DESCRIPTION`: This message is displayed when your application requests location permission for always.
 
 ---------------------------------------------------------------------------------------------------------
 

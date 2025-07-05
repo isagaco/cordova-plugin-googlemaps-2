@@ -2,6 +2,10 @@
 
 ## Version 2.9.0-dev
 
+### iOS
+- Upgrade Google Maps SDK from version 9.3.0 to 10.0.0
+- Use Metal renderer also for simulator instead of OpenGL
+
 ## Version 2.8.1 (05.07.2025)
 
 ### Android

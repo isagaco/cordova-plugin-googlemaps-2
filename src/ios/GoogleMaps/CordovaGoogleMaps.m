@@ -13,18 +13,6 @@
 - (void)pluginInitialize {
     NSLog(@"CordovaGoogleMaps pluginInitialize");
     
-    // Deactivate Metal and use OpenGL instead for simulator
-    // Since Google Maps SDK 7.4.0 a `EXC_BAD_ACCESS` can occur in gmscore::vector::TextureAtlasElement::height()
-    // when using Metal, see issue: https://issuetracker.google.com/issues/338162114
-    #if TARGET_IPHONE_SIMULATOR
-        // Starting with Google Maps SDK 9.0.0, it will give a warning when disabling Metal,
-        // as this will be not supported in the future, ignore this warning
-        #pragma clang diagnostic push
-        #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        [GMSServices setMetalRendererEnabled:NO];
-        #pragma clang diagnostic pop
-    #endif
-    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(pageDidLoad)
                                                  name:CDVPageDidLoadNotification
