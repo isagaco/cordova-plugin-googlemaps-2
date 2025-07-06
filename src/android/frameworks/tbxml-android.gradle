@@ -11,11 +11,7 @@ repositories {
 }
 
 dependencies {
-  implementation(name:'tbxml-android', ext:'aar') {
-    exclude group: 'com.android.volley'
-  }
-
-  implementation 'com.android.volley:volley:1.2.1'
+  implementation(name:'tbxml-android', ext:'aar')
 }
 
 android {
