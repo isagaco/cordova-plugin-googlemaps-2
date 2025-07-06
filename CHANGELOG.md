@@ -12,6 +12,7 @@
   - Remove `compileSdkVersion` and `packagingOptions` from tbxml-android.gradle
     - `compileSdkVersion` is set by cordova-android
     - Removed `packagingOptions` for excluding `README` and `LICENSE`. This should not be done here and it is not sure if this works and will bring a benefit.
+  - Don't use `flatDir` in `tbxml-android.gradle`: Using `flatDir` produces the warning `Using flatDir should be avoided because it doesn't support any meta-data formats.`. Instead android source sets will be used.
 
 ### iOS
 - Upgrade Google Maps SDK from version 9.3.0 to 10.0.0

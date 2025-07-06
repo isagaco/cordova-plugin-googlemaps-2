@@ -1,14 +1,28 @@
 /** 
   Import tbxml-android.aar.
   This is used for reading KML files in PluginKmlOverlay.java.
-*/
-repositories {
-  // Causes Warning: Using flatDir should be avoided because it doesn't support any meta-data formats.
-  flatDir {
-    dirs "src/main/libs"
+
+  Import with android source sets instead with
+
+  repositories {
+    flatDir {
+      dirs 'src/main/libs'
+    }
   }
+
+  Because flatDir will produce the warning:
+  "Using flatDir should be avoided because it doesn't support any meta-data formats."
+
+  Solution by https://stackoverflow.com/questions/68215302/using-flatdirs-should-be-avoided-because-it-doesnt-support-any-meta-data-format
+*/
+android {
+  sourceSets {
+        main {
+            jniLibs.srcDirs = ['src/main/libs']
+        }
+    }
 }
 
 dependencies {
-  implementation(name:'tbxml-android', ext:'aar')
+  implementation (files("src/main/libs/tbxml-android.aar"))
 }
