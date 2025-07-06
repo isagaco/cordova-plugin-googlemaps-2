@@ -3,9 +3,6 @@
   This is used for reading KML files in PluginKmlOverlay.java.
 */
 repositories {
-  maven { url 'https://maven.google.com' }
-  mavenCentral()
-
   // Causes Warning: Using flatDir should be avoided because it doesn't support any meta-data formats.
   flatDir {
     dirs "src/main/libs"

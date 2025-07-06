@@ -6,6 +6,9 @@
 - Build cleanups:
   - Let Google Maps SDK specify the version for `com.android.volley`: The version used for com.android.volley was sepcified in tbxml-android.gradle manually to 1.2.1. This was needed when using the old Google Maps SDK com.google.android.libraries.maps:maps:3.1.0-beta which pointed to version 1.1.1 and which was no longer available online. Since the latest Google Maps SDK is used, it will point by itself to a more recent version.
   - Copy tbxml-android.aar only once: tbxml-android.aar was copied to two paths: `app/src/main/libs` and `app/src/main/app/src/libs`. The second copy was useless and also wrong. Use the first path only.
+  - Remove unnecessary repositories from tbxml-android.gradle
+    - The default repositories for google and mavenCentral are already defined by cordova-android
+    - Removes a gradle warning: Deprecated Gradle features were used in this build, making it incompatible with Gradle 9.0, because `url 'https://maven.google.com'` would have to be `url = 'https://maven.google.com' `
 
 ### iOS
 - Upgrade Google Maps SDK from version 9.3.0 to 10.0.0
