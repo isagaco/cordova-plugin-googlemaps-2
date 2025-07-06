@@ -8,7 +8,10 @@
   - Copy tbxml-android.aar only once: tbxml-android.aar was copied to two paths: `app/src/main/libs` and `app/src/main/app/src/libs`. The second copy was useless and also wrong. Use the first path only.
   - Remove unnecessary repositories from tbxml-android.gradle
     - The default repositories for google and mavenCentral are already defined by cordova-android
-    - Removes a gradle warning: Deprecated Gradle features were used in this build, making it incompatible with Gradle 9.0, because `url 'https://maven.google.com'` would have to be `url = 'https://maven.google.com' `
+    - Removes a gradle warning: Deprecated Gradle features were used in this build, making it incompatible with Gradle 9.0, because `url 'https://maven.google.com'` would have to be `url = 'https://maven.google.com'`
+  - Remove `compileSdkVersion` and `packagingOptions` from tbxml-android.gradle
+    - `compileSdkVersion` is set by cordova-android
+    - Removed `packagingOptions` for excluding `README` and `LICENSE`. This should not be done here and it is not sure if this works and will bring a benefit.
 
 ### iOS
 - Upgrade Google Maps SDK from version 9.3.0 to 10.0.0
