@@ -107,18 +107,6 @@ function pluginInit() {
   ].join('');
   document.head.appendChild(cssAdjuster);
 
-  // I guess no longer necessary this code at 2018/March
-  // //----------------------------------------------
-  // // Set transparent mandatory for older browser
-  // // http://stackoverflow.com/a/3485654/697856
-  // //----------------------------------------------
-  // if(document.body){
-  //   document.body.style.backgroundColor = 'rgba(0,0,0,0)';
-  //   //document.body.style.display='none';
-  //   document.body.offsetHeight;
-  //   //document.body.style.display='';
-  // }
-
   //--------------------------------------------
   // Hook the backbutton of Android action
   //--------------------------------------------

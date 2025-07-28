@@ -102,13 +102,6 @@ utils.extend(Map, Overlay);
  * @desc Recalculate the position of HTML elements
  */
 Map.prototype.refreshLayout = function() {
-  // Webkit redraw mandatory
-  // http://stackoverflow.com/a/3485654/697856
-  // document.body.style.display = 'inline-block';
-  // document.body.offsetHeight;
-  // document.body.style.display = '';
-  document.body.style.transform = 'rotateZ(0deg)';
-
   var self = this;
   self.exec.call(self, null, null, self.__pgmId, 'resizeMap', []);
 };
@@ -914,25 +907,21 @@ Map.prototype.setDiv = function(div) {
         //ignore
       }
     }
+    
     var positionCSS;
+
     for (var i = 0; i < div.children.length; i++) {
       positionCSS = common.getStyle(div.children[i], 'position');
       if (positionCSS === 'static') {
         div.children[i].style.position = 'relative';
       }
     }
-    div.insertBefore(self._layers.info, div.firstChild);
 
-    // Webkit redraw mandatory
-    // http://stackoverflow.com/a/3485654/697856
-    // div.style.display = 'none';
-    // div.offsetHeight;
-    // div.style.display = '';
-    document.body.style.transform = 'rotateZ(0deg)';
+    div.insertBefore(self._layers.info, div.firstChild);
     div.style.overflow = 'hidden';
     div.style.position = 'relative';
-
   }
+
   self.set('div', div);
 
   return (new Promise(function(resolve) {
