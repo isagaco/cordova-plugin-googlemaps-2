@@ -17,6 +17,9 @@
 ### iOS
 - Upgrade Google Maps SDK from version 9.3.0 to 10.0.0
 - Use Metal renderer also for simulator instead of OpenGL
+- Remove WebKit redraw hack
+  - Removed `document.body.style.transform = 'rotateZ(0deg)';` from `Map.js` from `Map.refreshLayout` and `Map.setDiv`, which was used to for force WebKit browsers to perform a repaint/redraw, because in older WebKit browsers (Safari, early Chrome), certain DOM manipulations or CSS changes wouldn't trigger a visual update immediately, causing rendering glitches or elements appearing "stuck" in their old positions.
+  - This fix is no longer needed in modern WebKit Browsers and caused issues on Chrome on Android, see https://github.com/GitToTheHub/cordova-plugin-googlemaps-2/issues/19
 
 ## Version 2.8.1 (05.07.2025)
 
