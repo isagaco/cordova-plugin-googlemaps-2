@@ -1,6 +1,6 @@
 # ChangeLog
 
-## Version 2.9.0-dev
+## Version 2.9.0 (06.08.2025)
 
 ### Android
 - Build cleanups:
