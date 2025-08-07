@@ -16,6 +16,20 @@ This plugin allows you to display a native Google Maps layer in your application
 
 ## Installation
 
+### Notes
+
+#### iOS
+
+If you have set the preference `deployment-target` for iOS in your `config.xml` set it minimum to `16.0`.
+
+The installation can keep a long time when the plugin is installed for iOS, because CocoaPods loads the Google Maps SDK for iOS which can have many hundreds of MBs. It's not an error if you see a long time the message and nothing seems to happen anymore:
+
+```bash
+Cloning into 'cocoapods'...
+````
+
+If this task takes a huge amount of time, you could have a bad internet connection.
+
 ### GitHub
 
 #### Latest version
