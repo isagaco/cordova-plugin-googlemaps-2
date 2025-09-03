@@ -1,4 +1,4 @@
-# Cordova GoogleMaps plugin for Android, iOS and Browser version 2.9.1
+# Cordova GoogleMaps plugin for Android, iOS and Browser version 2.9.2-dev
 
 This is the continuation of the discontinued plugin [cordova-plugin-googlemaps](https://github.com/mapsplugin/cordova-plugin-googlemaps).
 
