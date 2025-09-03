@@ -2,6 +2,13 @@
 
 ## Version 2.9.1-dev
 
+### Android
+
+- Replace TBXML library with native Anroid `XmlPullParser`
+  - The TBXML library produces a warning in Google Play Console that an app does not support 16 KB page sizes
+  - It's not necessary to use a third party library for parsing XML files, so it's not necessary to support that library still
+  - TBXML was used to read KML files, which is now handled by `XmlPullParser`
+
 ## Version 2.9.0 (06.08.2025)
 
 ### Android
