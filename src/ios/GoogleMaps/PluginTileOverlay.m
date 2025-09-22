@@ -168,7 +168,7 @@
 
 /**
  * Set visibility
- * @params key
+ * @params command The first argument contains the tile layer ID, the second is the visibility flag
  */
 -(void)setVisible:(CDVInvokedUrlCommand *)command
 {
@@ -193,7 +193,7 @@
 
 /**
  * Remove the tile overlay
- * @params key
+ * @params command The first argument contains the tile layer ID
  */
 -(void)remove:(CDVInvokedUrlCommand *)command
 {
@@ -217,7 +217,7 @@
 
 /**
  * Set z-index
- * @params key
+ * @params command The first argument contains the tile layer ID, the second is the z-index value
  */
 -(void)setZIndex:(CDVInvokedUrlCommand *)command
 {
@@ -235,7 +235,7 @@
 }
 /**
  * Set fadeIn
- * @params key
+ * @params command The first argument contains the tile layer ID, the second is the fadeIn flag
  */
 -(void)setFadeIn:(CDVInvokedUrlCommand *)command
 {
@@ -257,7 +257,7 @@
 
 /**
  * Set opacity
- * @params key
+ * @params command The first argument contains the tile layer ID, the second is the opacity value
  */
 -(void)setOpacity:(CDVInvokedUrlCommand *)command
 {

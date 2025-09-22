@@ -305,7 +305,7 @@
 
 /**
  * Remove the ground overlay
- * @params key
+ * @params command First Argument is ground overlay ID
  */
 -(void)remove:(CDVInvokedUrlCommand *)command
 {
@@ -331,7 +331,7 @@
 
 /**
  * Set visibility
- * @params key
+ * @params command First Argument is ground overlay ID, Second is visibility
  */
 -(void)setVisible:(CDVInvokedUrlCommand *)command
 {
@@ -365,7 +365,7 @@
 
 /**
  * set image
- * @params key
+ * @params command First Argument is ground overlay ID, Second is image URL
  */
 -(void)setImage:(CDVInvokedUrlCommand *)command
 {
@@ -399,7 +399,7 @@
 
 /**
  * Set bounds
- * @params key
+ * @params command First Argument is ground overlay ID, Second is bounds
  */
 -(void)setBounds:(CDVInvokedUrlCommand *)command
 {
@@ -429,7 +429,7 @@
 
 /**
  * Set opacity
- * @params key
+ * @params command First Argument is ground overlay ID, Second is opacity
  */
 -(void)setOpacity:(CDVInvokedUrlCommand *)command
 {
@@ -450,7 +450,7 @@
 
 /**
  * Set bearing
- * @params key
+ * @params command First Argument is ground overlay ID, Second is bearing
  */
 -(void)setBearing:(CDVInvokedUrlCommand *)command
 {
@@ -471,7 +471,7 @@
 
 /**
  * Set clickable
- * @params key
+ * @params command First Argument is ground overlay ID, Second is clickable
  */
 -(void)setClickable:(CDVInvokedUrlCommand *)command
 {
@@ -495,7 +495,7 @@
 
 /**
  * Set z-index
- * @params key
+ * @params command First Argument is ground overlay ID, Second is z-index
  */
 -(void)setZIndex:(CDVInvokedUrlCommand *)command
 {

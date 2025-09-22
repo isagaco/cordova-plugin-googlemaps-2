@@ -64,9 +64,6 @@
     [self execJS:jsString];
 }
 
-/**
- * @callback the my location button is clicked.
- */
 - (void)mapView:(GMSMapView *)mapView didTapAtCoordinate:(CLLocationCoordinate2D)coordinate {
 
 
@@ -271,14 +268,14 @@
 
 }
 /**
- * @callback map long_click
+ * map_long_click
  */
 - (void) mapView:(GMSMapView *)mapView didLongPressAtCoordinate:(CLLocationCoordinate2D)coordinate {
   [self triggerMapEvent:@"map_long_click" coordinate:coordinate];
 }
 
 /**
- * @callback plugin.google.maps.event.CAMERA_MOVE_START
+ * plugin.google.maps.event.CAMERA_MOVE_START
  */
 - (void) mapView:(GMSMapView *)mapView willMove:(BOOL)gesture
 {
@@ -292,7 +289,7 @@
 
 
 /**
- * @callback plugin.google.maps.event.CAMERA_MOVE
+ * plugin.google.maps.event.CAMERA_MOVE
  */
 - (void)mapView:(GMSMapView *)mapView didChangeCameraPosition:(GMSCameraPosition *)position {
 
@@ -303,7 +300,7 @@
 }
 
 /**
- * @callback plugin.google.maps.event.CAMERA_MOVE_END
+ * plugin.google.maps.event.CAMERA_MOVE_END
  */
 - (void) mapView:(GMSMapView *)mapView idleAtCameraPosition:(GMSCameraPosition *)position
 {
@@ -316,7 +313,7 @@
 
 
 /**
- * @callback marker info_click
+ * marker info_click
  */
 - (void) mapView:(GMSMapView *)mapView didTapInfoWindowOfMarker:(GMSMarker *)marker
 {
@@ -342,7 +339,7 @@
   }
 }
 /**
- * @callback plugin.google.maps.event.MARKER_DRAG_START
+ * plugin.google.maps.event.MARKER_DRAG_START
  */
 - (void) mapView:(GMSMapView *) mapView didBeginDraggingMarker:(GMSMarker *)marker
 {
@@ -355,7 +352,7 @@
   }
 }
 /**
- * @callback plugin.google.maps.event.MARKER_DRAG_END
+ * plugin.google.maps.event.MARKER_DRAG_END
  */
 - (void) mapView:(GMSMapView *) mapView didEndDraggingMarker:(GMSMarker *)marker
 {
@@ -368,7 +365,7 @@
   }
 }
 /**
- * @callback plugin.google.maps.event.MARKER_DRAG
+ * plugin.google.maps.event.MARKER_DRAG
  */
 - (void) mapView:(GMSMapView *) mapView didDragMarker:(GMSMarker *)marker
 {
@@ -396,7 +393,7 @@
 }
 
 /**
- * @callback plugin.google.maps.event.MARKER_CLICK
+ * plugin.google.maps.event.MARKER_CLICK
  */
 - (BOOL)mapView:(GMSMapView *)mapView didTapMarker:(GMSMarker *)marker {
 

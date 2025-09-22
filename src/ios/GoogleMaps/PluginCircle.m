@@ -140,7 +140,7 @@
 }
 /**
  * Set center
- * @params key
+ * @params command First Argument is circle ID, Second is latitude, Third is longitude
  */
 -(void)setCenter:(CDVInvokedUrlCommand *)command
 {
@@ -164,7 +164,7 @@
 
 /**
  * Set fill color
- * @params key
+ * @params command First Argument is circle ID, Second is RGB color array
  */
 -(void)setFillColor:(CDVInvokedUrlCommand *)command
 {
@@ -185,7 +185,7 @@
 
 /**
  * Set stroke color
- * @params key
+ * @params command First Argument is circle ID, Second is RGB color array
  */
 -(void)setStrokeColor:(CDVInvokedUrlCommand *)command
 {
@@ -205,7 +205,7 @@
 
 /**
  * Set stroke width
- * @params key
+ * @params command First Argument is circle ID, Second is stroke width
  */
 -(void)setStrokeWidth:(CDVInvokedUrlCommand *)command
 {
@@ -225,7 +225,7 @@
 
 /**
  * Set radius
- * @params key
+ * @params command First Argument is circle ID, Second is radius
  */
 -(void)setRadius:(CDVInvokedUrlCommand *)command
 {
@@ -243,7 +243,7 @@
 }
 /**
  * Set z-index
- * @params key
+ * @params command First Argument is circle ID, Second is z-index
  */
 -(void)setZIndex:(CDVInvokedUrlCommand *)command
 {
@@ -262,7 +262,7 @@
 
 /**
  * Set visibility
- * @params key
+ * @params command First Argument is circle ID, Second is visibility
  */
 -(void)setVisible:(CDVInvokedUrlCommand *)command
 {
@@ -297,7 +297,7 @@
 
 /**
  * Set clickable
- * @params key
+ * @params command First Argument is circle ID, Second is clickable
  */
 -(void)setClickable:(CDVInvokedUrlCommand *)command
 {
@@ -321,7 +321,7 @@
 
 /**
  * Remove the circle
- * @params key
+ * @params command First Argument is circle ID
  */
 -(void)remove:(CDVInvokedUrlCommand *)command
 {

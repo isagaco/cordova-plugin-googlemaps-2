@@ -290,7 +290,7 @@
 
 /**
  * Set color
- * @params key
+ * @params command The first argument contains the polyline ID, the second is the color value
  */
 -(void)setStrokeColor:(CDVInvokedUrlCommand *)command
 {
@@ -313,7 +313,7 @@
 
 /**
  * Set width
- * @params key
+ * @params command The first argument contains the polyline ID, the second is the width value
  */
 -(void)setStrokeWidth:(CDVInvokedUrlCommand *)command
 {
@@ -334,7 +334,7 @@
 
 /**
  * Set z-index
- * @params key
+ * @params command The first argument contains the polyline ID, the second is the z-index value
  */
 -(void)setZIndex:(CDVInvokedUrlCommand *)command
 {
@@ -364,7 +364,7 @@
 
 /**
  * Set clickable
- * @params key
+ * @params command The first argument contains the polyline ID, the second is the clickable flag
  */
 -(void)setClickable:(CDVInvokedUrlCommand *)command
 {
@@ -387,7 +387,7 @@
 }
 /**
  * Set visibility
- * @params key
+ * @params command The first argument contains the polyline ID, the second is the visibility flag
  */
 -(void)setVisible:(CDVInvokedUrlCommand *)command
 {
@@ -419,7 +419,7 @@
 }
 /**
  * Set geodesic
- * @params key
+ * @params command The first argument contains the polyline ID, the second is the geodesic flag
  */
 -(void)setGeodesic:(CDVInvokedUrlCommand *)command
 {
@@ -449,7 +449,7 @@
 
 /**
  * Remove the polyline
- * @params key
+ * @params command The first argument contains the polyline ID
  */
 -(void)remove:(CDVInvokedUrlCommand *)command
 {

@@ -529,7 +529,7 @@
 }
 /**
  * Set fill color
- * @params key
+ * @params command The first argument contains the polygon ID, the second is the fill color as array
  */
 -(void)setFillColor:(CDVInvokedUrlCommand *)command
 {
@@ -555,7 +555,7 @@
 
 /**
  * Set stroke color
- * @params key
+ * @params command The first argument contains the polygon ID, the second is the stroke color as array
  */
 -(void)setStrokeColor:(CDVInvokedUrlCommand *)command
 {
@@ -579,7 +579,7 @@
 
 /**
  * Set stroke width
- * @params key
+ * @params command The first argument contains the polygon ID, the second is the stroke width
  */
 -(void)setStrokeWidth:(CDVInvokedUrlCommand *)command
 {
@@ -602,7 +602,7 @@
 
 /**
  * Set z-index
- * @params key
+ * @params command The first argument contains the polygon ID, the second is the z-index value
  */
 -(void)setZIndex:(CDVInvokedUrlCommand *)command
 {
@@ -635,7 +635,7 @@
 
 /**
  * Set clickable
- * @params key
+ * @params command The first argument contains the polygon ID, the second is the clickable flag
  */
 -(void)setClickable:(CDVInvokedUrlCommand *)command
 {
@@ -663,7 +663,7 @@
 
 /**
  * Set visibility
- * @params key
+ * @params command The first argument contains the polygon ID, the second is the visibility flag
  */
 -(void)setVisible:(CDVInvokedUrlCommand *)command
 {
@@ -699,7 +699,7 @@
 }
 /**
  * Set geodesic
- * @params key
+ * @params command The first argument contains the polygon ID, the second is the geodesic flag
  */
 -(void)setGeodesic:(CDVInvokedUrlCommand *)command
 {
@@ -722,7 +722,7 @@
 
 /**
  * Remove the polygon
- * @params key
+ * @params command The first argument contains the polygon ID
  */
 -(void)remove:(CDVInvokedUrlCommand *)command
 {
