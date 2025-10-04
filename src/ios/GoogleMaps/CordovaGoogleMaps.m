@@ -155,10 +155,7 @@
 }
 
 - (void)_destroyMap:(NSString *)mapId {
-  if (![self.viewPlugins objectForKey:mapId]) {
-    return;
-  }
-  CDVViewController *cdvViewController = (CDVViewController*)self.viewController;
+  if (![self.viewPlugins objectForKey:mapId]) return;
 
   CDVPlugin<IPluginView> *pluginView = [self.viewPlugins objectForKey:mapId];
   if ([mapId hasPrefix:@"streetview_"]) {
@@ -166,9 +163,6 @@
     pluginSV.isRemoved = YES;
     //[pluginSV clear:nil];
     [pluginSV pluginUnload];
-    [cdvViewController.pluginObjects setObject:pluginView forKey:mapId];
-    [cdvViewController.pluginsMap setValue:mapId forKey:mapId];
-
     [self.pluginLayer removePluginOverlay:pluginSV.panoramaCtrl];
     pluginSV.panoramaCtrl.view = nil;
     pluginSV = nil;
@@ -177,10 +171,6 @@
     pluginMap.isRemoved = YES;
     //[pluginMap clear:nil];
     [pluginMap pluginUnload];
-
-    [cdvViewController.pluginObjects setObject:pluginView forKey:mapId];
-    [cdvViewController.pluginsMap setValue:mapId forKey:mapId];
-
     [self.pluginLayer removePluginOverlay:pluginMap.mapCtrl];
 
     pluginMap.mapCtrl.view = nil;
@@ -193,8 +183,6 @@
 
 
   [self.viewPlugins removeObjectForKey:mapId];
-
-  [cdvViewController.pluginObjects removeObjectForKey:mapId];
 }
 /**
  * Remove the map
@@ -248,8 +236,7 @@
             [pluginMap setCommandDelegate:cdvViewController.commandDelegate];
         }
         
-        [cdvViewController.pluginObjects setObject:pluginMap forKey:mapId];
-        [cdvViewController.pluginsMap setValue:mapId forKey:mapId];
+        [cdvViewController registerPlugin:pluginMap withPluginName:mapId];
         [pluginMap pluginInitialize];
         
         [self.viewPlugins setObject:pluginMap forKey:mapId];
@@ -433,8 +420,8 @@
     if ([pluginStreetView respondsToSelector:@selector(setCommandDelegate:)]) {
       [pluginStreetView setCommandDelegate:cdvViewController.commandDelegate];
     }
-    [cdvViewController.pluginObjects setObject:pluginStreetView forKey:panoramaId];
-    [cdvViewController.pluginsMap setValue:panoramaId forKey:panoramaId];
+    
+    [cdvViewController registerPlugin:pluginStreetView withPluginName:panoramaId];
     [pluginStreetView pluginInitialize];
 
     [self.viewPlugins setObject:pluginStreetView forKey:panoramaId];

@@ -37,18 +37,6 @@
         }
         [self.mapCtrl.objects removeObjectForKey:key];
     }
-
-  //[self.imgCache removeAllObjects];
-  //self.imgCache = nil;
-
-  key = nil;
-  keys = nil;
-
-  NSString *pluginId = [NSString stringWithFormat:@"%@-groundoverlay", self.mapCtrl.overlayId];
-  CDVViewController *cdvViewController = (CDVViewController*)self.viewController;
-  [cdvViewController.pluginObjects removeObjectForKey:pluginId];
-  [cdvViewController.pluginsMap setValue:nil forKey:pluginId];
-  pluginId = nil;
 }
 
 -(void)setPluginViewController:(PluginViewController *)viewCtrl

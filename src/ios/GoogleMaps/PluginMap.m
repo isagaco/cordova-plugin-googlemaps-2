@@ -93,8 +93,8 @@
       if ([plugin respondsToSelector:@selector(setCommandDelegate:)]) {
         [plugin setCommandDelegate:cdvViewController.commandDelegate];
       }
-      [cdvViewController.pluginObjects setObject:plugin forKey:pluginId];
-      [cdvViewController.pluginsMap setValue:pluginId forKey:pluginId];
+      
+      [cdvViewController registerPlugin:plugin withPluginName:pluginId];
       [plugin pluginInitialize];
 
       //NSLog(@"--->loadPlugin : %@ className : %@, plugin : %@", pluginId, className, plugin);
@@ -258,20 +258,9 @@
   dispatch_async(dispatch_get_main_queue(), ^{
     [self.mapCtrl.map clear];
   });
-
-
-  CDVViewController *cdvViewController = (CDVViewController*)self.viewController;
-  CDVPlugin<IPluginProtocol> *plugin;
-  NSString *pluginName;
-  NSArray *keys = [self.mapCtrl.plugins allKeys];
-  for (int j = 0; j < [keys count]; j++) {
-    pluginName = [keys objectAtIndex:j];
-    plugin = [self.mapCtrl.plugins objectForKey:pluginName];
-    [plugin pluginUnload];
-
-    [cdvViewController.pluginObjects removeObjectForKey:pluginName];
-    [cdvViewController.pluginsMap setValue:nil forKey:pluginName];
-    //plugin = nil;
+  
+  for (id pluginName in [self.mapCtrl.plugins allKeys]) {
+    [[self.mapCtrl.plugins objectForKey:pluginName] pluginUnload];
   }
 
   [self.mapCtrl.plugins removeAllObjects];
