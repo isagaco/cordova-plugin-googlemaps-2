@@ -296,7 +296,7 @@
   
   double minDistance = 999999999;
   double distance;
-  CLLocationCoordinate2D mostClosePoint;
+  CLLocationCoordinate2D mostClosePoint = kCLLocationCoordinate2DInvalid;
 
   for (int i = 0; i < [inspectPoints count]; i++) {
     distance = GMSGeometryDistance([inspectPoints coordinateAtIndex:i], point);

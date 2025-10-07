@@ -189,7 +189,8 @@
 
   //
   maxZIndex = -1;
-  CLLocationCoordinate2D touchPoint;
+  CLLocationCoordinate2D touchPoint = kCLLocationCoordinate2DInvalid;
+
   for (i = 0; i < [boundsHitList count]; i++) {
     key = [boundsHitList objectAtIndex:i];
     //plugin = [boundsPluginList objectAtIndex:i];
@@ -257,7 +258,7 @@
 
   }
 
-  if (hitKey != nil) {
+  if (hitKey != nil && CLLocationCoordinate2DIsValid(touchPoint)) {
     NSArray *tmp = [hitKey componentsSeparatedByString:@"_"];
     NSString *eventName = [NSString stringWithFormat:@"%@_click", [tmp objectAtIndex:0]];
     [self triggerOverlayEvent:eventName overlayId:hitKey coordinate:touchPoint];
