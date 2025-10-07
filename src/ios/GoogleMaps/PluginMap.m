@@ -153,7 +153,7 @@
 
     // Load the GoogleMap.m
     CDVViewController *cdvViewController = (CDVViewController*)self.viewController;
-    CordovaGoogleMaps *googlemaps = [cdvViewController getCommandInstance:@"CordovaGoogleMaps"];
+    CordovaGoogleMaps *googlemaps = (CordovaGoogleMaps *)[cdvViewController getCommandInstance:@"CordovaGoogleMaps"];
 
     // Detach the map view
     if ([command.arguments count] == 0) {
@@ -179,7 +179,7 @@
 
     // Load the GoogleMap.m
     CDVViewController *cdvViewController = (CDVViewController*)self.viewController;
-    CordovaGoogleMaps *googlemaps = [cdvViewController getCommandInstance:@"CordovaGoogleMaps"];
+    CordovaGoogleMaps *googlemaps = (CordovaGoogleMaps *)[cdvViewController getCommandInstance:@"CordovaGoogleMaps"];
     [googlemaps.pluginLayer addPluginOverlay:self.mapCtrl];
     self.mapCtrl.attached = YES;
 
@@ -194,7 +194,7 @@
 
     // Load the GoogleMap.m
     CDVViewController *cdvViewController = (CDVViewController*)self.viewController;
-    CordovaGoogleMaps *googlemaps = [cdvViewController getCommandInstance:@"CordovaGoogleMaps"];
+    CordovaGoogleMaps *googlemaps = (CordovaGoogleMaps *)[cdvViewController getCommandInstance:@"CordovaGoogleMaps"];
     [googlemaps.pluginLayer removePluginOverlay:self.mapCtrl];
     self.mapCtrl.attached = NO;
 
@@ -216,7 +216,7 @@
 
     // Load the GoogleMap.m
     CDVViewController *cdvViewController = (CDVViewController*)self.viewController;
-    CordovaGoogleMaps *googlemaps = [cdvViewController getCommandInstance:@"CordovaGoogleMaps"];
+    CordovaGoogleMaps *googlemaps = (CordovaGoogleMaps *)[cdvViewController getCommandInstance:@"CordovaGoogleMaps"];
 
     // Save the map rectangle.
     if (![googlemaps.pluginLayer.pluginScrollView.HTMLNodes objectForKey:self.mapCtrl.divId]) {

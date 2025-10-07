@@ -90,7 +90,7 @@ dispatch_queue_t queue;
   dispatch_async(queue, ^{
       // Load the GoogleMap.m
       CDVViewController *cdvViewController = (CDVViewController*)self.viewController;
-      CordovaGoogleMaps *googlemaps = [cdvViewController getCommandInstance:@"CordovaGoogleMaps"];
+      CordovaGoogleMaps *googlemaps = (CordovaGoogleMaps *)[cdvViewController getCommandInstance:@"CordovaGoogleMaps"];
 
       NSArray *rgbColor = [command.arguments objectAtIndex:0];
       dispatch_async(dispatch_get_main_queue(), ^{
