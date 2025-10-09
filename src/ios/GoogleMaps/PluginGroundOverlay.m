@@ -20,18 +20,11 @@
   //self.imgCache.totalCostLimit = 3 * 1024 * 1024 * 1024; // 3MB = Cache for image
 }
 
-- (void)pluginUnload
-{
-
-
+- (void)pluginUnload {
     // Plugin destroy
-    NSArray *keys = [self.mapCtrl.objects allKeys];
-    NSString *key;
-    for (int i = 0; i < [keys count]; i++) {
-        key = [keys objectAtIndex:i];
+    for (id key in [self.mapCtrl.objects allKeys]) {
         if ([key hasPrefix:@"groundoverlay_property"]) {
-          key = [key stringByReplacingOccurrencesOfString:@"_property" withString:@""];
-          GMSGroundOverlay *groundoverlay = (GMSGroundOverlay *)[self.mapCtrl.objects objectForKey:key];
+          GMSGroundOverlay *groundoverlay = (GMSGroundOverlay *)[self.mapCtrl.objects objectForKey:[key stringByReplacingOccurrencesOfString:@"_property" withString:@""]];
           groundoverlay.map = nil;
           groundoverlay = nil;
         }

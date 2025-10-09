@@ -696,11 +696,11 @@
   [self.mapCtrl.executeQueue addOperationWithBlock:^{
       NSString *polygonKey = [command.arguments objectAtIndex:0];
       GMSPolygon *polygon = [self.mapCtrl.objects objectForKey:polygonKey];
-      Boolean isGeodisic = [[command.arguments objectAtIndex:1] boolValue];
+      Boolean isGeodesic = [[command.arguments objectAtIndex:1] boolValue];
 
       // Apply to the polygon on UI thread.
       [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-          [polygon setGeodesic:isGeodisic];
+          [polygon setGeodesic:isGeodesic];
 
           CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
           [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];

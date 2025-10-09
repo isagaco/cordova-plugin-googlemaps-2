@@ -343,30 +343,16 @@
 
   // Check other views of other plugins before this plugin
   // e.g. PhoneGap-Plugin-ListPicker, etc
-  UIView *subview;
-  NSArray *subviews = [self.webView.superview subviews];
-  //CGRect statusBarFrame = [UIApplication sharedApplication].statusBarFrame;
-  //CGPoint subviewPoint = CGPointMake(browserClickPoint.x, browserClickPoint.y - statusBarFrame.size.height);
-
-  for (int i = ((int)[subviews count] - 1); i >= 0; i--) {
-    subview = [subviews objectAtIndex: i];
-    //NSLog(@"--->subview[%d] = %@", i, subview);
+  for (UIView *subview in [self.webView.superview.subviews reverseObjectEnumerator]) {
     // we only want to check against other views
-    if (subview == self.pluginScrollView) {
-      continue;
-    }
-
-    if (subview.isHidden || !subview.isUserInteractionEnabled) {
-      continue;
-    }
+    if (subview == self.pluginScrollView) continue;
+    if (subview.isHidden || !subview.isUserInteractionEnabled) continue;
 
     CGPoint subviewPoint = CGPointMake(point.x, point.y - subview.frame.origin.y);
     UIView *hit = [subview hitTest:subviewPoint withEvent:event];
 
     if (hit) {
-      if (subview == self.webView) {
-        break;
-      }
+      if (subview == self.webView) break;
       return hit;
     }
   }
@@ -390,34 +376,23 @@
   float webviewWidth = self.webView.frame.size.width;
   float webviewHeight = self.webView.frame.size.height;
 
-
-  CGRect rect;
-  NSEnumerator *mapIDs = [self.pluginScrollView.mapCtrls keyEnumerator];
-  PluginMapViewController *mapCtrl;
-  id mapId;
-  NSString *clickedDomId;
-
   CGFloat zoomScale = [[UIScreen mainScreen] scale];
   offsetY *= zoomScale;
   offsetX *= zoomScale;
   webviewWidth *= zoomScale;
   webviewHeight *= zoomScale;
 
-  NSDictionary *domInfo;
-
   @synchronized(self.pluginScrollView.HTMLNodes) {
     //NSLog(@"--->browserClickPoint = %f, %f", browserClickPoint.x, browserClickPoint.y);
-    clickedDomId = [self findClickedDom:@"root" withPoint:browserClickPoint isMapChild:NO overflow:nil];
+    NSString *clickedDomId = [self findClickedDom:@"root" withPoint:browserClickPoint isMapChild:NO overflow:nil];
     //NSLog(@"--->clickedDomId = %@", clickedDomId);
 
-    while(mapId = [mapIDs nextObject]) {
-      mapCtrl = [self.pluginScrollView.mapCtrls objectForKey:mapId];
-      if (!mapCtrl.divId) {
-        continue;
-      }
-      domInfo =[self.pluginScrollView.HTMLNodes objectForKey:mapCtrl.divId];
-
-      rect = CGRectFromString([domInfo objectForKey:@"size"]);
+    for (id mapId in [[self.pluginScrollView.mapCtrls keyEnumerator] allObjects]) {
+      PluginMapViewController *mapCtrl = [self.pluginScrollView.mapCtrls objectForKey:mapId];
+      if (!mapCtrl.divId) continue;
+      
+      NSDictionary *domInfo = [self.pluginScrollView.HTMLNodes objectForKey:mapCtrl.divId];
+      CGRect rect = CGRectFromString([domInfo objectForKey:@"size"]);
 
       // Is the map clickable?
       if (mapCtrl.clickable == NO) {
