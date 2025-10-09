@@ -2,6 +2,27 @@
 
 ## Version 2.9.2-dev
 
+### iOS
+- Update Google Maps SDK from 10.0.0 to 10.4.0
+  - If you upgrade the plugin, you have first to upgrade the pod repo in `platforms/ios` by executing `pod repo update`. Than you can remove and re-add the plugin, to update it.
+- Make plugin compatible with `cordova-ios` 8.0.0
+  - Update parameter descriptions to fix warnings with cordova-ios 8.0.0
+    - `@params` often declared a wrong parameter
+    - Document the content of the command parameter
+  - Call `[CDVViewController registerPlugin:withPluginName:]` instead calling private properties
+    - Since cordova-ios 8 the properties `pluginObjects` and `pluginsMap` in `CDVViewController` are deprecated and should not be used anymore. `[CDVViewController registerPlugin:withPluginName:]` is used, when `setObject` or `setValue` was called on these deprecated properties before.
+    - Removed deregistering of pseudo map plugins in`pluginUnload` by using private properties `pluginObjects` and `pluginsMap` of `CDVViewController`. There is no equivalent method in `CDVViewController` for deregister a plugin.
+  - Add missing class cast `CordovaGoogleMaps` for `[cdvViewController getCommandInstance:@"CordovaGoogleMaps"]`
+    - Fixes warning: `Incompatible pointer types initializing 'CordovaGoogleMaps *' with an expression of type 'CDVPlugin * _Nullable'`
+  - Init `CLLocationCoordinate2D` variables with `kCLLocationCoordinate2DInvalid`
+    - Check if variable is valid by `CLLocationCoordinate2DIsValid()`
+  - Don't import `MainViewController.h` in `PluginUtil.h`
+    - Fixes warning: `It is unsafe to rely on the MainViewController class as an extension point. Update your code to extend CDVViewController instead. This code will stop working in Cordova iOS 9!`
+  - Use `performSelector` for `scrollView` of `webView`
+    - Fixes deprecation warning of direct property access of `webView.scrollView` in cordova-ios 8.x. Cordova will remove the `scrollView` property added as a global category extension to `UIView` in the future.
+- Code cleaning
+  - Clean up whitespace and improve code readability
+
 ## Version 2.9.1 (03.09.2025)
 
 ### Android
