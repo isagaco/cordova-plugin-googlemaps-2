@@ -74,7 +74,7 @@ var map = plugin.google.maps.Map.getMap(div);
 ```
 
 ### iOS
-This plugin uses CocoaPods since Version 2.8.0 to add the Google Maps SDK as a dependency. Since Version `2.9.0` Google Maps SDK for iOS 10.0.0 is used, which was released on 19.05.2025 and requires a minimum `deployment-target` of iOS 16. To achieve this, the plugin sets the `deployment-target` to iOS 16.0 in your `config.xml`, but only, if you didn't specify it. iOS 16 is compatible with iPhones from iPhone 8 (from the year 2017) and newer, including iPhone SE (2nd and 3rd generation). Since Google Maps SDK version 7.3.0 it's possible to run the plugin on a simulator on a Mac with a M CPU (Apple Silicon) using the Metal renderer.
+This plugin uses CocoaPods since Version 2.8.0 to add the Google Maps SDK as a dependency. Since Version `2.9.0` Google Maps SDK for iOS 10.0.0 is used and requires a minimum `deployment-target` of iOS 16. To achieve this, the plugin sets the `deployment-target` to iOS 16.0 in your `config.xml`, but only, if you didn't specify it. iOS 16 is compatible with iPhones from iPhone 8 (from the year 2017) and newer, including iPhone SE (2nd and 3rd generation). Since Google Maps SDK version 7.3.0 it's possible to run the plugin on a simulator on a Mac with a M CPU (Apple Silicon) using the Metal renderer.
 
 To upgrade from plugin version 2.7.1 from the old reposiotry to Version 2.8.0 or newer of this respository you have to remove the old plugin and old iOS Google Map dependency:
 
