@@ -114,7 +114,12 @@
 
 
 -(void)viewDidLayoutSubviews {
-    [self.pluginLayer.pluginScrollView setContentSize: self.webView.scrollView.contentSize];
+    // Update contentSize of pluginScrollView to match the scrollView of the WebView
+    if ([self.webView respondsToSelector:@selector(scrollView)]) {
+        UIScrollView *webViewScrollView = [self.webView performSelector:@selector(scrollView)];
+        self.pluginLayer.pluginScrollView.contentSize = webViewScrollView.contentSize;
+    }
+  
     [self.pluginLayer.pluginScrollView flashScrollIndicators];
 }
 

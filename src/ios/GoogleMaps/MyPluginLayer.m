@@ -36,7 +36,7 @@
     [self.webView removeFromSuperview];
     // prevent webView from bouncing
     if ([self.webView respondsToSelector:@selector(scrollView)]) {
-        ((UIScrollView*)[self.webView scrollView]).bounces = NO;
+        ((UIScrollView*)[self.webView performSelector:@selector(scrollView)]).bounces = NO;
     } else {
         for (id subview in [self.webView subviews]) {
             if ([[subview class] isSubclassOfClass:[UIScrollView class]]) {
@@ -48,12 +48,14 @@
     self.pluginScrollView = [[MyPluginScrollView alloc] initWithFrame:[self.webView frame]];
 
     self.pluginScrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-
-    self.pluginScrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-    UIView *uiview = self.webView;
-    uiview.scrollView.delegate = self;
-    [self.pluginScrollView setContentSize:self.webView.scrollView.frame.size ];
-
+  
+    // Set webview delegate to MyPluginLayer and set contentSize of pluginScrollView to match the one of webView
+    if ([self.webView respondsToSelector:@selector(scrollView)]) {
+        UIScrollView *webViewScrollView = [self.webView performSelector:@selector(scrollView)];
+        webViewScrollView.delegate = self;
+        self.pluginScrollView.contentSize = webViewScrollView.frame.size;
+    }
+  
     [self addSubview:self.pluginScrollView];
 
     [self addSubview:self.webView];
@@ -90,18 +92,24 @@
 }
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
-  CGPoint offset = self.webView.scrollView.contentOffset;
-  self.pluginScrollView.contentOffset = offset;
+  [self syncPluginScrollViewContentOffsetWithWebViewScrollView];
 }
 
 -(void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
-  CGPoint offset = self.webView.scrollView.contentOffset;
-  self.pluginScrollView.contentOffset = offset;
+  [self syncPluginScrollViewContentOffsetWithWebViewScrollView];
 }
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-  CGPoint offset = self.webView.scrollView.contentOffset;
-  self.pluginScrollView.contentOffset = offset;
+  [self syncPluginScrollViewContentOffsetWithWebViewScrollView];
 }
+
+// Syncs pluginScrollView.contentOffset with webView.scrollView.contentOffset
+- (void)syncPluginScrollViewContentOffsetWithWebViewScrollView {
+  if ([self.webView respondsToSelector:@selector(scrollView)]) {
+    UIScrollView *webViewScrollView = [self.webView performSelector:@selector(scrollView)];
+    self.pluginScrollView.contentOffset = webViewScrollView.contentOffset;
+  }
+}
+
 - (void)clearHTMLElements {
     @synchronized(self.pluginScrollView.HTMLNodes) {
       NSMutableDictionary *domInfo;
@@ -229,13 +237,16 @@
 }
 
 - (void)updateViewPosition:(PluginViewController *)pluginViewCtrl {
-    CGFloat zoomScale = self.webView.scrollView.zoomScale;
-    [self.pluginScrollView setFrame:self.webView.frame];
-
-    CGPoint offset = self.webView.scrollView.contentOffset;
-    offset.x *= zoomScale;
-    offset.y *= zoomScale;
-    [self.pluginScrollView setContentOffset:offset];
+  if (![self.webView respondsToSelector:@selector(scrollView)]) return;
+  
+  [self.pluginScrollView setFrame:self.webView.frame];
+  
+  UIScrollView *webViewScrollView = [self.webView performSelector:@selector(scrollView)];
+  CGFloat zoomScale = webViewScrollView.zoomScale;
+  CGPoint offset = webViewScrollView.contentOffset;
+  offset.x *= zoomScale;
+  offset.y *= zoomScale;
+  [self.pluginScrollView setContentOffset:offset];
 
     if (!pluginViewCtrl.divId) {
       return;
@@ -376,8 +387,15 @@
     return [self.webView hitTest:browserClickPoint withEvent:event];
   }
 
-  float offsetX = self.webView.scrollView.contentOffset.x;
-  float offsetY = self.webView.scrollView.contentOffset.y;
+  float offsetX = 0;
+  float offsetY = 0;
+  
+  // Take contentOffset.x and .y from webView.scrollView
+  if ([self.webView respondsToSelector:@selector(scrollView)]) {
+    UIScrollView *webViewScrollView = [self.webView performSelector:@selector(scrollView)];
+    offsetX = webViewScrollView.contentOffset.x;
+    offsetY = webViewScrollView.contentOffset.y;
+  }
 
   float webviewWidth = self.webView.frame.size.width;
   float webviewHeight = self.webView.frame.size.height;
