@@ -34,6 +34,7 @@
     self.isSuspended = false;
     self.opaque = NO;
     [self.webView removeFromSuperview];
+  
     // prevent webView from bouncing
     if ([self.webView respondsToSelector:@selector(scrollView)]) {
         ((UIScrollView*)[self.webView performSelector:@selector(scrollView)]).bounces = NO;
@@ -46,7 +47,6 @@
     }
 
     self.pluginScrollView = [[MyPluginScrollView alloc] initWithFrame:[self.webView frame]];
-
     self.pluginScrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
   
     // Set webview delegate to MyPluginLayer and set contentSize of pluginScrollView to match the one of webView
@@ -57,16 +57,7 @@
     }
   
     [self addSubview:self.pluginScrollView];
-
     [self addSubview:self.webView];
-
-
-//    dispatch_queue_t q_background = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0);
-//
-//    dispatch_async(q_background, ^{
-//      [self startRedrawTimer];
-//    });
-
     return self;
 }
 
@@ -90,6 +81,7 @@
     }
   }
 }
+
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
   [self syncPluginScrollViewContentOffsetWithWebViewScrollView];
@@ -98,6 +90,7 @@
 -(void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
   [self syncPluginScrollViewContentOffsetWithWebViewScrollView];
 }
+
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
   [self syncPluginScrollViewContentOffsetWithWebViewScrollView];
 }
@@ -214,11 +207,7 @@
       [pluginViewCtrl.view removeFromSuperview];
       [pluginViewCtrl removeFromParentViewController];
       [self.pluginScrollView detachView:pluginViewCtrl.view];
-
-      //[pluginViewCtrl.view setFrame:CGRectMake(0, -pluginViewCtrl.view.frame.size.height, pluginViewCtrl.view.frame.size.width, pluginViewCtrl.view.frame.size.height)];
-      //[pluginViewCtrl.view setNeedsDisplay];
   }];
-
 }
 
 - (void)resizeTask:(NSTimer *)timer {
@@ -248,9 +237,7 @@
   offset.y *= zoomScale;
   [self.pluginScrollView setContentOffset:offset];
 
-    if (!pluginViewCtrl.divId) {
-      return;
-    }
+  if (!pluginViewCtrl.divId) return;
 
     NSDictionary *domInfo = nil;
     @synchronized(self.pluginScrollView.HTMLNodes) {
@@ -339,6 +326,7 @@
     }
 
 }
+
 - (void)execJS: (NSString *)jsString {
     if ([self.webView respondsToSelector:@selector(stringByEvaluatingJavaScriptFromString:)]) {
         [self.webView performSelector:@selector(stringByEvaluatingJavaScriptFromString:) withObject:jsString];
@@ -346,6 +334,7 @@
         [self.webView performSelector:@selector(evaluateJavaScript:completionHandler:) withObject:jsString withObject:nil];
     }
 }
+
 - (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
   CGPoint browserClickPoint = CGPointMake(point.x - self.webView.frame.origin.x, point.y - self.webView.frame.origin.y);
   //NSLog(@"-->zoomScale = %f", self.webView.scrollView.zoomScale);
@@ -381,6 +370,7 @@
       return hit;
     }
   }
+  
   if (self.pluginScrollView.mapCtrls == nil || self.pluginScrollView.mapCtrls.count == 0) {
     // Assumes all touches for the browser
     //NSLog(@"--->browser!");
@@ -464,8 +454,8 @@
     }
   }
 
-    //NSLog(@"--->in browser!");
-    return [self.webView hitTest:browserClickPoint withEvent:event];
+  //NSLog(@"--->in browser!");
+  return [self.webView hitTest:browserClickPoint withEvent:event];
 }
 
 - (NSString *)findClickedDom:(NSString *)domId withPoint:(CGPoint)clickPoint isMapChild:(BOOL)isMapChild overflow:(OverflowCSS *)overflow {
@@ -711,3 +701,4 @@
 
 
 @end
+

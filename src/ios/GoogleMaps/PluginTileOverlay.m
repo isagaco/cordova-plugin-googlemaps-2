@@ -181,7 +181,6 @@
   }];
 }
 
-
 /**
  * Remove the tile overlay
  * @params command The first argument contains the tile layer ID
@@ -205,7 +204,6 @@
 
 }
 
-
 /**
  * Set z-index
  * @params command The first argument contains the tile layer ID, the second is the z-index value
@@ -224,6 +222,7 @@
       });
   }];
 }
+
 /**
  * Set fadeIn
  * @params command The first argument contains the tile layer ID, the second is the fadeIn flag
@@ -245,14 +244,12 @@
 
 }
 
-
 /**
  * Set opacity
  * @params command The first argument contains the tile layer ID, the second is the opacity value
  */
 -(void)setOpacity:(CDVInvokedUrlCommand *)command
 {
-
   [self.executeQueue addOperationWithBlock:^{
       NSString *tileLayerKey = [command.arguments objectAtIndex:0];
       GMSTileLayer *layer = (GMSTileLayer *)[self.mapCtrl.objects objectForKey:tileLayerKey];
@@ -266,4 +263,5 @@
 
   }];
 }
+
 @end

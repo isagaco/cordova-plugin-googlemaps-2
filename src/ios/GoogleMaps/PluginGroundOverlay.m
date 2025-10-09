@@ -35,6 +35,7 @@
           groundoverlay.map = nil;
           groundoverlay = nil;
         }
+
         [self.mapCtrl.objects removeObjectForKey:key];
     }
 }
@@ -455,7 +456,6 @@
     }];
 
 }
-
 
 /**
  * Set clickable

@@ -25,7 +25,6 @@
 
 - (void)pluginUnload
 {
-
   // Plugin destroy
   NSArray *keys = [self.mapCtrl.objects allKeys];
   NSString *key;
@@ -90,6 +89,7 @@
   }];
 
 }
+
 - (void)_create:(NSString *)markerId markerOptions:(NSDictionary *)json callbackBlock:(void (^)(BOOL successed, id resultObj)) callbackBlock {
 
   if ([NSThread isMainThread] == NO) {
@@ -249,6 +249,7 @@
     }];
   }];
 }
+
 /**
  * Hide current infowindow
  */
@@ -263,6 +264,7 @@
     }];
   }];
 }
+
 /**
  * Get the position of the specified marker.
  * Send as plugin result the current marker position with array(latitude, longitude)
@@ -313,7 +315,6 @@
     }];
   }];
 }
-
 
 /**
  * Set snippet to the specified marker
@@ -445,7 +446,6 @@
 
   }];
 }
-
 
 /**
  * Set opacity

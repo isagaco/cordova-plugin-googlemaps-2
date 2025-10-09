@@ -518,6 +518,7 @@
   }];
 
 }
+  
 /**
  * Set fill color
  * @params command The first argument contains the polygon ID, the second is the fill color as array
@@ -542,7 +543,6 @@
   }];
 
 }
-
 
 /**
  * Set stroke color
@@ -579,7 +579,6 @@
       NSString *polygonKey = [command.arguments objectAtIndex:0];
       GMSPolygon *polygon = [self.mapCtrl.objects objectForKey:polygonKey];
       float width = [[command.arguments objectAtIndex:1] floatValue];
-
 
       // Apply to the polygon on UI thread.
       [[NSOperationQueue mainQueue] addOperationWithBlock:^{
@@ -686,17 +685,15 @@
           [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
       }];
   }];
-
 }
+
 /**
  * Set geodesic
  * @params command The first argument contains the polygon ID, the second is the geodesic flag
  */
 -(void)setGeodesic:(CDVInvokedUrlCommand *)command
 {
-
   [self.mapCtrl.executeQueue addOperationWithBlock:^{
-
       NSString *polygonKey = [command.arguments objectAtIndex:0];
       GMSPolygon *polygon = [self.mapCtrl.objects objectForKey:polygonKey];
       Boolean isGeodisic = [[command.arguments objectAtIndex:1] boolValue];
@@ -717,8 +714,6 @@
  */
 -(void)remove:(CDVInvokedUrlCommand *)command
 {
-
-
     // Apply to the polygon on UI thread.
     [[NSOperationQueue mainQueue] addOperationWithBlock:^{
         NSString *polygonKey = [command.arguments objectAtIndex:0];
@@ -731,7 +726,6 @@
         CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
         [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
     }];
-
 }
 
 @end

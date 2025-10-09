@@ -163,21 +163,20 @@
   if (![self.viewPlugins objectForKey:mapId]) return;
 
   CDVPlugin<IPluginView> *pluginView = [self.viewPlugins objectForKey:mapId];
+
   if ([mapId hasPrefix:@"streetview_"]) {
     PluginStreetViewPanorama *pluginSV = (PluginStreetViewPanorama *)pluginView;
     pluginSV.isRemoved = YES;
-    //[pluginSV clear:nil];
     [pluginSV pluginUnload];
     [self.pluginLayer removePluginOverlay:pluginSV.panoramaCtrl];
     pluginSV.panoramaCtrl.view = nil;
     pluginSV = nil;
+
   } else {
     PluginMap *pluginMap = (PluginMap *)pluginView;
     pluginMap.isRemoved = YES;
-    //[pluginMap clear:nil];
     [pluginMap pluginUnload];
     [self.pluginLayer removePluginOverlay:pluginMap.mapCtrl];
-
     pluginMap.mapCtrl.view = nil;
     [pluginMap.mapCtrl.plugins removeAllObjects];
     pluginMap.mapCtrl.plugins = nil;
@@ -185,7 +184,6 @@
     pluginMap.mapCtrl = nil;
     pluginMap = nil;
   }
-
 
   [self.viewPlugins removeObjectForKey:mapId];
 }
@@ -552,3 +550,4 @@
 }
 
 @end
+

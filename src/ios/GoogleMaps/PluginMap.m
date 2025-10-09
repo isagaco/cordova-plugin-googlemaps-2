@@ -87,9 +87,11 @@
       // https://github.com/apache/cordova-ios/blob/582e35776f01ee03f32f0986de181bcf5eb4d232/CordovaLib/Classes/Public/CDVViewController.m#L577
       //
       CDVViewController *cdvViewController = (CDVViewController*)self.viewController;
+      
       if ([plugin respondsToSelector:@selector(setViewController:)]) {
         [plugin setViewController:cdvViewController];
       }
+      
       if ([plugin respondsToSelector:@selector(setCommandDelegate:)]) {
         [plugin setCommandDelegate:cdvViewController.commandDelegate];
       }
@@ -160,6 +162,7 @@
       [googlemaps.pluginLayer removePluginOverlay:self.mapCtrl];
       self.mapCtrl.attached = NO;
       self.mapCtrl.view = nil;
+      
     } else {
       self.mapCtrl.view = self.mapCtrl.map;
       [googlemaps.pluginLayer addPluginOverlay:self.mapCtrl];
@@ -169,6 +172,7 @@
       self.mapCtrl.isRenderedAtOnce = NO; //prevent unexpected animation
       [googlemaps.pluginLayer updateViewPosition:self.mapCtrl];
     }
+    
     CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
   }];
@@ -268,7 +272,6 @@
   if (command != (id)[NSNull null]) {
     CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
-
   }
 }
 

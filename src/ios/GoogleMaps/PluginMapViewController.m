@@ -65,8 +65,6 @@
 }
 
 - (void)mapView:(GMSMapView *)mapView didTapAtCoordinate:(CLLocationCoordinate2D)coordinate {
-
-
   if (self.activeMarker) {
     /*
      NSString *clusterId_markerId =[NSString stringWithFormat:@"%@", self.activeMarker.userData];
@@ -185,9 +183,6 @@
   CLLocationCoordinate2D hitArea = [self.map.projection coordinateForPoint:CGPointMake(1, 1)];
   CLLocationDistance threshold = GMSGeometryDistance(origin, hitArea);
 
-
-
-  //
   maxZIndex = -1;
   CLLocationCoordinate2D touchPoint = kCLLocationCoordinate2DInvalid;
 
@@ -268,6 +263,7 @@
 
 
 }
+
 /**
  * map_long_click
  */
@@ -287,7 +283,6 @@
   }
   [self triggerCameraEvent:@"camera_move_start" position:self.map.camera];
 }
-
 
 /**
  * plugin.google.maps.event.CAMERA_MOVE
@@ -311,7 +306,6 @@
   [self triggerCameraEvent:(@"camera_move_end") position:position];
   self.isDragging = NO;
 }
-
 
 /**
  * marker info_click
@@ -339,6 +333,7 @@
     [self triggerMarkerEvent:@"info_long_click" marker:marker];
   }
 }
+
 /**
  * plugin.google.maps.event.MARKER_DRAG_START
  */
@@ -352,6 +347,7 @@
     [self triggerMarkerEvent:@"marker_drag_start" marker:marker];
   }
 }
+
 /**
  * plugin.google.maps.event.MARKER_DRAG_END
  */
@@ -365,6 +361,7 @@
     [self triggerMarkerEvent:@"marker_drag_end" marker:marker];
   }
 }
+
 /**
  * plugin.google.maps.event.MARKER_DRAG
  */

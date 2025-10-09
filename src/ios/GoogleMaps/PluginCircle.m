@@ -21,12 +21,13 @@
 
 - (void)pluginUnload
 {
-
     // Plugin destroy
     NSArray *keys = [self.mapCtrl.objects allKeys];
     NSString *key;
+    
     for (int i = 0; i < [keys count]; i++) {
         key = [keys objectAtIndex:i];
+
         if ([key hasPrefix:@"circle_property"]) {
           key = [key stringByReplacingOccurrencesOfString:@"_property" withString:@""];
           GMSCircle *circle = (GMSCircle *)[self.mapCtrl.objects objectForKey:key];
@@ -129,6 +130,7 @@
 
     });
 }
+
 /**
  * Set center
  * @params command First Argument is circle ID, Second is latitude, Third is longitude
@@ -172,7 +174,6 @@
         }];
     }];
 }
-
 
 /**
  * Set stroke color
@@ -232,6 +233,7 @@
         }];
     }];
 }
+
 /**
  * Set z-index
  * @params command First Argument is circle ID, Second is z-index
@@ -284,8 +286,6 @@
 
     }];
 }
-
-
 /**
  * Set clickable
  * @params command First Argument is circle ID, Second is clickable

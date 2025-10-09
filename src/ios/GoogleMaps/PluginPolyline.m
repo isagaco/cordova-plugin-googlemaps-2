@@ -27,7 +27,6 @@
 
 - (void)pluginUnload
 {
-
   // Plugin destroy
   NSArray *keys = [self.mapCtrl.objects allKeys];
   NSString *key;
@@ -285,7 +284,6 @@
  */
 -(void)setStrokeColor:(CDVInvokedUrlCommand *)command
 {
-
   [self.mapCtrl.executeQueue addOperationWithBlock:^{
       NSString *polylineKey = [command.arguments objectAtIndex:0];
       GMSPolyline *polyline = (GMSPolyline *)[self.mapCtrl.objects objectForKey:polylineKey];
@@ -376,13 +374,13 @@
       [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
   }];
 }
+
 /**
  * Set visibility
  * @params command The first argument contains the polyline ID, the second is the visibility flag
  */
 -(void)setVisible:(CDVInvokedUrlCommand *)command
 {
-
   [self.mapCtrl.executeQueue addOperationWithBlock:^{
       NSString *polylineKey = [command.arguments objectAtIndex:0];
       GMSPolyline *polyline = (GMSPolyline *)[self.mapCtrl.objects objectForKey:polylineKey];
@@ -393,7 +391,6 @@
                                          [self.mapCtrl.objects objectForKey:propertyId]];
       [properties setObject:[NSNumber numberWithBool:isVisible] forKey:@"isVisible"];
       [self.mapCtrl.objects setObject:properties forKey:propertyId];
-
 
       // Run on the UI thread
       [[NSOperationQueue mainQueue] addOperationWithBlock:^{
@@ -408,13 +405,13 @@
       }];
   }];
 }
+
 /**
  * Set geodesic
  * @params command The first argument contains the polyline ID, the second is the geodesic flag
  */
 -(void)setGeodesic:(CDVInvokedUrlCommand *)command
 {
-
   [self.mapCtrl.executeQueue addOperationWithBlock:^{
       NSString *polylineKey = [command.arguments objectAtIndex:0];
       GMSPolyline *polyline = (GMSPolyline *)[self.mapCtrl.objects objectForKey:polylineKey];
@@ -444,7 +441,6 @@
  */
 -(void)remove:(CDVInvokedUrlCommand *)command
 {
-
   [self.mapCtrl.executeQueue addOperationWithBlock:^{
     NSString *polylineKey = [command.arguments objectAtIndex:0];
     [[NSOperationQueue mainQueue] addOperationWithBlock:^{
