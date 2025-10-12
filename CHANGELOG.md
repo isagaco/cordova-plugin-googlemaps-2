@@ -1,6 +1,6 @@
 # ChangeLog
 
-## Version 2.9.2-dev
+## Version 2.9.2 (12.10.2025)
 
 ### iOS
 - Update Google Maps SDK from 10.0.0 to 10.4.0
