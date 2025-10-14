@@ -16,23 +16,6 @@ This plugin allows you to display a native Google Maps layer in your application
 
 ## Installation
 
-### Notes
-
-#### iOS
-
-If you have set the preference `deployment-target` for iOS in your `config.xml` set it minimum to `16.0`.
-
-The installation can keep a long time when the plugin is installed for iOS, because CocoaPods loads the Google Maps SDK for iOS which can have many hundreds of MBs. It's not an error if you see a long time the message and nothing seems to happen anymore:
-
-```bash
-Cloning into 'cocoapods'...
-````
-
-If this task takes a huge amount of time, you could have a bad internet connection.
-
-##### Deprecation of CocoaPods
-This plugin is aware that CocoaPods is [deprecated](https://blog.cocoapods.org/CocoaPods-Specs-Repo/) and will not accept new Podspecs after 2. December 2026. Google will support CocoaPods [till Sommer 2026](https://developers.google.com/maps/documentation/ios-sdk/config#cocoapods). After that, no updates will be published to CocoaPods and instead Swift Package Manager has to be used to continue receiving updates. The next upcoming [cordova-ios 8](https://cordova.apache.org/announcements/2024/10/21/cordova-ios-8.1.1-beta.1.html) will support [Swift Package Manager](https://cordova.apache.org/docs/en/dev/guide/platforms/ios/plugin.html#supporting-swift-package-manager-spm) but is not released yet. When it is released, this plugin will begin to switch to Swift Package Manager.
-
 ### GitHub
 
 #### Latest version
@@ -51,34 +34,22 @@ To install a specific version you can use git tags. Example for installing versi
 cordova plugin add https://github.com/GitToTheHub/cordova-plugin-googlemaps-2#v2.9.0
 ```
 
-### Setup API-Keys
-
-Setup you Google Maps API keys for Android & iOS in your `config.xml` as follows:
-
-  ```xml
-  <widget ...>
-    <preference name="GOOGLE_MAPS_ANDROID_API_KEY" value="(api key)" />
-    <preference name="GOOGLE_MAPS_IOS_API_KEY" value="(api key)" />
-  </widget>
-  ```
-
-For the browser platform you need to specify the API-Key in JavaScript before calling `plugin.google.maps.Map.getMap()`:
-
-```js
-plugin.google.maps.environment.setEnv({
-  // for `https:` protocol
-  'API_KEY_FOR_BROWSER_RELEASE': '(YOUR_API_KEY_IS_HERE)',
-  // for `http:` protocol
-  'API_KEY_FOR_BROWSER_DEBUG': ''  // optional
-});
-
-// Create a Google Maps native view under the map_canvas div.
-var map = plugin.google.maps.Map.getMap(div);
-```
-
 ### iOS
 This plugin uses CocoaPods since Version 2.8.0 to add the Google Maps SDK as a dependency. Since Version `2.9.0` Google Maps SDK for iOS 10.0.0 is used and requires a minimum `deployment-target` of iOS 16. To achieve this, the plugin sets the `deployment-target` to iOS 16.0 in your `config.xml`, but only, if you didn't specify it. iOS 16 is compatible with iPhones from iPhone 8 (from the year 2017) and newer, including iPhone SE (2nd and 3rd generation). Since Google Maps SDK version 7.3.0 it's possible to run the plugin on a simulator on a Mac with a M CPU (Apple Silicon) using the Metal renderer.
 
+#### Long installation time with CocoaPods
+The installation can keep a long time when the plugin is installed for iOS, because CocoaPods loads the Google Maps SDK for iOS which can have many hundreds of MBs. It's not an error if you see a long time the message and nothing seems to happen anymore:
+
+```bash
+Cloning into 'cocoapods'...
+````
+
+If this task takes a huge amount of time, you could have a bad internet connection.
+
+#### Deprecation of CocoaPods
+CocoaPods is [deprecated](https://blog.cocoapods.org/CocoaPods-Specs-Repo/) and will be a read-only respository after 2. December 2026. Google will support CocoaPods [till Sommer 2026](https://developers.google.com/maps/documentation/ios-sdk/config#cocoapods). After that, no updates will be published to CocoaPods and instead Swift Package Manager has to be used to continue receiving updates. The next upcoming [cordova-ios 8](https://cordova.apache.org/announcements/2024/10/21/cordova-ios-8.1.1-beta.1.html) will support [Swift Package Manager](https://cordova.apache.org/docs/en/dev/guide/platforms/ios/plugin.html#supporting-swift-package-manager-spm) but is not released yet. When it is released, this plugin will begin to switch to Swift Package Manager.
+
+#### Upgrade from original `cordova-plugin-googlemaps` repository
 To upgrade from plugin version 2.7.1 from the old reposiotry to Version 2.8.0 or newer of this respository you have to remove the old plugin and old iOS Google Map dependency:
 
 ```bash
@@ -127,6 +98,31 @@ Since Google Maps SDK 7.4.0 an `EXC_BAD_ACCESS` could occur on a simulator when 
 ##### EXC_BAD_ACCESS in glvmRasterOpDepthStencilTest (gmscore::renderer::GLEntity::Draw)
 Happend only on a simulator with iOS 15 since Google Maps SDK 6.0.0 when using OpenGL:
 https://issuetracker.google.com/issues/224584852. Since the minimum `deployment-target` was raised to 16.0 and Metal is used, this no issue anymore.
+
+### Setup API-Keys
+
+Setup you Google Maps API keys for Android & iOS in your `config.xml` as follows:
+
+  ```xml
+  <widget ...>
+    <preference name="GOOGLE_MAPS_ANDROID_API_KEY" value="(api key)" />
+    <preference name="GOOGLE_MAPS_IOS_API_KEY" value="(api key)" />
+  </widget>
+  ```
+
+For the browser platform you need to specify the API-Key in JavaScript before calling `plugin.google.maps.Map.getMap()`:
+
+```js
+plugin.google.maps.environment.setEnv({
+  // for `https:` protocol
+  'API_KEY_FOR_BROWSER_RELEASE': '(YOUR_API_KEY_IS_HERE)',
+  // for `http:` protocol
+  'API_KEY_FOR_BROWSER_DEBUG': ''  // optional
+});
+
+// Create a Google Maps native view under the map_canvas div.
+var map = plugin.google.maps.Map.getMap(div);
+```
 
 ### Optional variables to be set in `config.xml`
 
