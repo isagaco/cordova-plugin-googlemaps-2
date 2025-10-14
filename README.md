@@ -31,7 +31,7 @@ Cloning into 'cocoapods'...
 If this task takes a huge amount of time, you could have a bad internet connection.
 
 ##### Deprecation of CocoaPods
-This plugin is aware that CocoaPods is [deprecated](https://blog.cocoapods.org/CocoaPods-Specs-Repo/) and will not accept new Podspecs after 2. December 2026. Google will support CocoaPods till Sommer 2026. After that, no updates will be published to CocoaPods and instead Swift Package Manager has to be used to continue receiving updates. The next upcoming [cordova-ios 8](https://cordova.apache.org/announcements/2024/10/21/cordova-ios-8.1.1-beta.1.html) will support [Swift Package Manager](https://cordova.apache.org/docs/en/dev/guide/platforms/ios/plugin.html#supporting-swift-package-manager-spm) but is not released yet. When it is released, this plugin will begin to switch to Swift Package Manager.
+This plugin is aware that CocoaPods is [deprecated](https://blog.cocoapods.org/CocoaPods-Specs-Repo/) and will not accept new Podspecs after 2. December 2026. Google will support CocoaPods [till Sommer 2026](https://developers.google.com/maps/documentation/ios-sdk/config#cocoapods). After that, no updates will be published to CocoaPods and instead Swift Package Manager has to be used to continue receiving updates. The next upcoming [cordova-ios 8](https://cordova.apache.org/announcements/2024/10/21/cordova-ios-8.1.1-beta.1.html) will support [Swift Package Manager](https://cordova.apache.org/docs/en/dev/guide/platforms/ios/plugin.html#supporting-swift-package-manager-spm) but is not released yet. When it is released, this plugin will begin to switch to Swift Package Manager.
 
 ### GitHub
 
