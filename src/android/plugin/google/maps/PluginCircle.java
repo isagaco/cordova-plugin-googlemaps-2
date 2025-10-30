@@ -104,6 +104,11 @@ public class PluginCircle extends MyPlugin implements MyPluginInterface {
     final LatLng center = new LatLng(args.getDouble(1), args.getDouble(2));
     final Circle circle = this.getCircle(id);
 
+    if (circle == null) {
+      callbackContext.error("Circle with id '" + id + "' not found");
+      return;
+    }
+
     cordova.getActivity().runOnUiThread(new Runnable() {
       @Override
       public void run() {
@@ -169,6 +174,11 @@ public class PluginCircle extends MyPlugin implements MyPluginInterface {
     final float radius = (float) args.getDouble(1);
     final Circle circle = this.getCircle(id);
 
+    if (circle == null) {
+      callbackContext.error("Circle with id '" + id + "' not found");
+      return;
+    }
+
     cordova.getActivity().runOnUiThread(new Runnable() {
       @Override
       public void run() {
@@ -211,6 +221,11 @@ public class PluginCircle extends MyPlugin implements MyPluginInterface {
     final boolean isVisible = args.getBoolean(1);
 
     final Circle circle = this.getCircle(id);
+
+    if (circle == null) {
+      callbackContext.error("Circle with id '" + id + "' not found");
+      return;
+    }
 
     cordova.getActivity().runOnUiThread(new Runnable() {
       @Override

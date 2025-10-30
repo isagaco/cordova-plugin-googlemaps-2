@@ -76,17 +76,23 @@ public class AsyncLoadImage extends AsyncTask<Void, Void, AsyncLoadImage.AsyncLo
   }
 
   public static void addBitmapToMemoryCache(String key, Bitmap image) {
+    if (image == null || image.isRecycled()) {
+      return;
+    }
     if (getBitmapFromMemCache(key) == null) {
-      mIconCache.put(key, image.copy(image.getConfig(), true));
+      try {
+        // Store a copy to prevent external modifications and ensure thread-safety
+        mIconCache.put(key, image.copy(image.getConfig(), true));
+      } catch (IllegalStateException e) {
+        // Bitmap was recycled externally, skip caching
+      }
     }
   }
 
   public static void removeBitmapFromMemCahce(String key) {
-    Bitmap image = mIconCache.remove(key);
-    if (image == null || image.isRecycled()) {
-      return;
-    }
-    image.recycle();
+    // Simply remove from cache without recycling
+    // The garbage collector will reclaim memory when no longer referenced
+    mIconCache.remove(key);
   }
 
   public static Bitmap getBitmapFromMemCache(String key) {
@@ -95,7 +101,13 @@ public class AsyncLoadImage extends AsyncTask<Void, Void, AsyncLoadImage.AsyncLo
       return null;
     }
 
-    return image.copy(image.getConfig(), true);
+    try {
+      // Return a copy to ensure thread-safety and prevent external modifications
+      return image.copy(image.getConfig(), true);
+    } catch (IllegalStateException e) {
+      // Bitmap was recycled externally (shouldn't happen now, but defensive programming)
+      return null;
+    }
   }
 
 

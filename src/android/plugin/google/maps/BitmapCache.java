@@ -18,9 +18,10 @@ public class BitmapCache extends LruCache<String, Bitmap> {
 
   @Override
   protected void entryRemoved(boolean evicted, String key, Bitmap oldBitmap, Bitmap newBitmap) {
-    if (!oldBitmap.isRecycled()) {
-      oldBitmap.recycle();
-      oldBitmap = null;
-    }
+    // Don't recycle bitmaps here - they may still be in use by markers, overlays, etc.
+    // Modern Android (3.0+) stores bitmaps in the heap, so the garbage collector
+    // will automatically reclaim memory when the bitmap is no longer referenced.
+    // Manual recycling can cause "Can't copy a recycled bitmap" crashes if the bitmap
+    // is still being used elsewhere.
   }
 }
