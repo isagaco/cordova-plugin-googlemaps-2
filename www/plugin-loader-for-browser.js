@@ -26,6 +26,7 @@ module.exports = {
   LatLng: require('cordova-plugin-googlemaps-2.LatLng'),
   LatLngBounds: require('cordova-plugin-googlemaps-2.LatLngBounds'),
   MapTypeId: require('cordova-plugin-googlemaps-2.MapTypeId'),
+  ColorScheme: require('cordova-plugin-googlemaps-2.ColorScheme'),
   environment: require('cordova-plugin-googlemaps-2.Environment'),
   Geocoder: require('cordova-plugin-googlemaps-2.Geocoder')(execCmd),
   ElevationService: require('cordova-plugin-googlemaps-2.ElevationService')(execCmd),

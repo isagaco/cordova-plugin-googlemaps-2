@@ -80,6 +80,9 @@
   <js-module name="MapTypeId" src="www/MapTypeId.js">
     <runs/>
   </js-module>
+  <js-module name="ColorScheme" src="www/ColorScheme.js">
+    <runs/>
+  </js-module>
   <js-module name="KmlOverlay" src="www/KmlOverlay.js">
     <runs/>
   </js-module>

@@ -24,10 +24,10 @@ document.addEventListener('load_googlemaps', function() {
 
   var secureStripeScript = document.createElement('script');
   if (API_KEY_FOR_BROWSER && API_KEY_FOR_BROWSER.length > 35) {
-    secureStripeScript.setAttribute('src','https://maps.googleapis.com/maps/api/js?key=' + API_KEY_FOR_BROWSER);
+    secureStripeScript.setAttribute('src','https://maps.googleapis.com/maps/api/js?key=' + API_KEY_FOR_BROWSER + '&v=weekly');
   } else {
     // for development only
-    secureStripeScript.setAttribute('src','https://maps.googleapis.com/maps/api/js');
+    secureStripeScript.setAttribute('src','https://maps.googleapis.com/maps/api/js?v=weekly');
   }
   secureStripeScript.addEventListener('load', function() {
     API_LOADED_STATUS = 2;

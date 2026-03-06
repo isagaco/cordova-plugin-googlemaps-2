@@ -112,8 +112,19 @@ function PluginMap(mapId, options) {
   self.set('clickable', true);
 
 
-  self.one('googleready', function() {
+  self.one('googleready', async function() {
     self.set('isGoogleReady', true);
+
+    // Import ColorScheme from core library if needed
+    var ColorSchemeLib = null;
+    if (options && options.colorScheme) {
+      try {
+        var coreLib = await google.maps.importLibrary("core");
+        ColorSchemeLib = coreLib.ColorScheme;
+      } catch (e) {
+        console.warn('Failed to import ColorScheme library:', e);
+      }
+    }
 
     var mapTypeReg = new google.maps.MapTypeRegistry();
     mapTypeReg.set('none', new google.maps.ImageMapType({
@@ -137,6 +148,34 @@ function PluginMap(mapId, options) {
     };
 
     if (options) {
+
+      if (options.colorScheme) {
+        // Use imported ColorScheme enum if available
+        if (ColorSchemeLib) {
+          var COLOR_SCHEME_MAP = {
+            'COLOR_SCHEME_LIGHT': ColorSchemeLib.LIGHT,
+            'COLOR_SCHEME_DARK': ColorSchemeLib.DARK,
+            'COLOR_SCHEME_FOLLOW_SYSTEM': ColorSchemeLib.FOLLOW_SYSTEM
+          };
+
+          var mappedScheme = COLOR_SCHEME_MAP[options.colorScheme];
+          if (mappedScheme) {
+            mapInitOptions.colorScheme = mappedScheme;
+          }
+        } else {
+          // Fallback to string values
+          var COLOR_SCHEME_MAP_STRINGS = {
+            'COLOR_SCHEME_LIGHT': 'LIGHT',
+            'COLOR_SCHEME_DARK': 'DARK',
+            'COLOR_SCHEME_FOLLOW_SYSTEM': 'FOLLOW_SYSTEM'
+          };
+
+          var mappedScheme = COLOR_SCHEME_MAP_STRINGS[options.colorScheme];
+          if (mappedScheme) {
+            mapInitOptions.colorScheme = mappedScheme;
+          }
+        }
+      }
 
       if (options.mapId) {
         mapInitOptions.mapId = options.mapId;

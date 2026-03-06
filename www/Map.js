@@ -9,6 +9,7 @@ var utils = require('cordova/utils'),
   LatLng = require('./LatLng'),
   LatLngBounds = require('./LatLngBounds'),
   MapTypeId = require('./MapTypeId'),
+  ColorScheme = require('./ColorScheme'),
   event = require('./event'),
   VisibleRegion = require('./VisibleRegion'),
   Marker = require('./Marker'),
@@ -220,6 +221,16 @@ Map.prototype.getMap = function(meta, div, options) {
     }
     if (utils.isArray(options.styles)) {
       options.styles = JSON.stringify(options.styles);
+    }
+    // Validate colorScheme if provided
+    if (options.colorScheme) {
+      console.log('[Map.js] Received colorScheme:', options.colorScheme);
+      var validScheme = ColorScheme[options.colorScheme.replace('COLOR_SCHEME_', '')];
+      console.log('[Map.js] Validated colorScheme:', validScheme);
+      if (options.colorScheme !== validScheme) {
+        console.error('[Map.js] Invalid ColorScheme was specified:', options.colorScheme);
+        return this.errorHandler('Invalid ColorScheme was specified.');
+      }
     }
     args.push(options);
 
